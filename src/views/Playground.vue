@@ -22,8 +22,11 @@
             >
               Run Code
             </button>
-            <button class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors">
-              Share
+            <button 
+              @click="shareCode"
+              class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors"
+            >
+              {{ shareButtonText }}
             </button>
           </div>
         </div>
@@ -65,19 +68,64 @@
       </div>
       
       <!-- Output Preview -->
-      <div class="h-64 bg-white dark:bg-gray-800 border-t border-gray-300 dark:border-gray-700">
-        <div class="p-3 border-b border-gray-200 dark:border-gray-700 font-semibold text-gray-700 dark:text-gray-300">
-          Output Preview
+      <div class="h-96 bg-white dark:bg-gray-800 border-t border-gray-300 dark:border-gray-700">
+        <div class="p-3 border-b border-gray-200 dark:border-gray-700 font-semibold text-gray-700 dark:text-gray-300 flex justify-between items-center">
+          <span>Output Preview</span>
+          <div class="flex gap-2">
+            <button 
+              @click="activeOutput = 'react'"
+              :class="[
+                'px-3 py-1 text-sm rounded transition-colors',
+                activeOutput === 'react' 
+                  ? 'bg-react-blue text-white' 
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+              ]"
+            >
+              React Output
+            </button>
+            <button 
+              @click="activeOutput = 'vue'"
+              :class="[
+                'px-3 py-1 text-sm rounded transition-colors',
+                activeOutput === 'vue' 
+                  ? 'bg-vue-green text-white' 
+                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+              ]"
+            >
+              Vue Output
+            </button>
+          </div>
         </div>
-        <div class="p-4">
-          <div v-if="error" class="text-red-500">
+        <div class="h-full relative">
+          <div v-if="error" class="p-4 text-red-500">
             Error: {{ error }}
           </div>
-          <div v-else-if="isRunning" class="text-gray-500 dark:text-gray-400">
-            Running code...
+          <div v-else-if="isRunning" class="p-4 text-gray-500 dark:text-gray-400">
+            <LoadingSpinner />
+            <p class="text-center mt-2">Compiling and running code...</p>
           </div>
-          <div v-else class="text-gray-500 dark:text-gray-400">
+          <div v-else-if="!hasRun" class="p-4 text-gray-500 dark:text-gray-400 text-center">
             Click "Run Code" to see the output
+          </div>
+          <div v-else class="h-full">
+            <!-- React Output -->
+            <iframe
+              v-show="activeOutput === 'react'"
+              ref="reactFrame"
+              :srcdoc="reactOutput"
+              class="w-full h-full bg-white"
+              sandbox="allow-scripts"
+              style="height: calc(100% - 52px);"
+            ></iframe>
+            <!-- Vue Output -->
+            <iframe
+              v-show="activeOutput === 'vue'"
+              ref="vueFrame"
+              :srcdoc="vueOutput"
+              class="w-full h-full bg-white"
+              sandbox="allow-scripts"
+              style="height: calc(100% - 52px);"
+            ></iframe>
           </div>
         </div>
       </div>
@@ -86,8 +134,9 @@
 </template>
 
 <script setup>
-import { ref, shallowRef } from 'vue'
+import { ref, shallowRef, onMounted } from 'vue'
 import { VueMonacoEditor } from '@guolao/vue-monaco-editor'
+import LoadingSpinner from '../components/common/LoadingSpinner.vue'
 
 const reactCode = ref(`import React, { useState } from 'react';
 
@@ -124,9 +173,16 @@ const count = ref(0)
 const selectedExample = ref('')
 const error = ref('')
 const isRunning = ref(false)
+const hasRun = ref(false)
+const activeOutput = ref('react')
+const reactOutput = ref('')
+const vueOutput = ref('')
 
 const reactEditor = shallowRef()
 const vueEditor = shallowRef()
+const reactFrame = ref(null)
+const vueFrame = ref(null)
+const shareButtonText = ref('Share')
 
 const editorOptions = {
   automaticLayout: true,
@@ -416,18 +472,230 @@ const loadExample = () => {
   }
 }
 
-const runCode = () => {
+const runCode = async () => {
   error.value = ''
   isRunning.value = true
+  hasRun.value = true
   
-  // Simulate running code
-  setTimeout(() => {
+  try {
+    // Generate React output
+    reactOutput.value = generateReactHTML(reactCode.value)
+    
+    // Generate Vue output
+    vueOutput.value = generateVueHTML(vueCode.value)
+    
+    // Small delay to show loading state
+    await new Promise(resolve => setTimeout(resolve, 500))
+  } catch (err) {
+    error.value = err.message
+  } finally {
     isRunning.value = false
-    // In a real implementation, this would compile and run the code
-    console.log('React code:', reactCode.value)
-    console.log('Vue code:', vueCode.value)
-  }, 1000)
+  }
 }
+
+const generateReactHTML = (code) => {
+  // Create a standalone HTML page that runs the React code
+  return `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"><\/script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"><\/script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"><\/script>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: white;
+    }
+    button {
+      background: #61DAFB;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 4px;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #4fc3f7;
+    }
+    input {
+      padding: 8px;
+      margin: 4px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      padding: 8px;
+      margin: 4px 0;
+      background: #f5f5f5;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    ${code}
+    
+    // Render the component
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    const Component = typeof App !== 'undefined' ? App : (Counter || TodoList || UserList || (() => <div>No component exported</div>));
+    root.render(<Component />);
+  <\/script>
+</body>
+</html>`
+}
+
+const generateVueHTML = (code) => {
+  // Extract template, script, and style from Vue SFC
+  const templateMatch = code.match(/<template>([\\s\\S]*?)<\\/template>/)
+  const scriptMatch = code.match(/<script setup>([\\s\\S]*?)<\\/script>/)
+  
+  const template = templateMatch ? templateMatch[1].trim() : '<div>No template found</div>'
+  const script = scriptMatch ? scriptMatch[1].trim() : ''
+  
+  // Build the Vue imports dynamically
+  const vueImports = ['createApp']
+  if (script.includes('ref')) vueImports.push('ref')
+  if (script.includes('reactive')) vueImports.push('reactive')
+  if (script.includes('onMounted')) vueImports.push('onMounted')
+  if (script.includes('computed')) vueImports.push('computed')
+  if (script.includes('watch')) vueImports.push('watch')
+  
+  // Extract all const declarations
+  const constDeclarations = script.match(/const\\s+(\\w+)/g) || []
+  const returnValues = constDeclarations.map(match => match.replace('const ', '')).join(', ')
+  
+  // Create a standalone HTML page that runs the Vue code
+  return `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"><\/script>
+  <style>
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: white;
+    }
+    button {
+      background: #42b883;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      margin: 4px;
+      color: white;
+      font-size: 16px;
+    }
+    button:hover {
+      background: #35a372;
+    }
+    input {
+      padding: 8px;
+      margin: 4px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      padding: 8px;
+      margin: 4px 0;
+      background: #f5f5f5;
+      border-radius: 4px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">${template}</div>
+  <script>
+    const { ${vueImports.join(', ')} } = Vue;
+    
+    createApp({
+      setup() {
+        ${script}
+        
+        return {
+          ${returnValues}
+        }
+      }
+    }).mount('#app')
+  <\/script>
+</body>
+</html>`
+}
+
+const shareCode = () => {
+  // Create a shareable state object
+  const state = {
+    react: reactCode.value,
+    vue: vueCode.value,
+    example: selectedExample.value
+  }
+  
+  // Encode the state as base64
+  const encoded = btoa(JSON.stringify(state))
+  
+  // Create the shareable URL
+  const url = `${window.location.origin}${window.location.pathname}#share=${encoded}`
+  
+  // Copy to clipboard
+  navigator.clipboard.writeText(url).then(() => {
+    shareButtonText.value = 'Copied!'
+    setTimeout(() => {
+      shareButtonText.value = 'Share'
+    }, 2000)
+  }).catch(() => {
+    // Fallback for older browsers
+    const input = document.createElement('input')
+    input.value = url
+    document.body.appendChild(input)
+    input.select()
+    document.execCommand('copy')
+    document.body.removeChild(input)
+    shareButtonText.value = 'Copied!'
+    setTimeout(() => {
+      shareButtonText.value = 'Share'
+    }, 2000)
+  })
+}
+
+// Load shared code on mount
+onMounted(() => {
+  const hash = window.location.hash
+  if (hash.startsWith('#share=')) {
+    try {
+      const encoded = hash.substring(7)
+      const state = JSON.parse(atob(encoded))
+      if (state.react) reactCode.value = state.react
+      if (state.vue) vueCode.value = state.vue
+      if (state.example) selectedExample.value = state.example
+    } catch (err) {
+      console.error('Failed to load shared code:', err)
+    }
+  }
+})
 </script>
 
 <style>
