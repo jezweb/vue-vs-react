@@ -27,6 +27,12 @@ const routes = [
     meta: { title: 'Framework Decision Helper' }
   },
   {
+    path: '/performance',
+    name: 'Performance',
+    component: () => import('../views/Performance.vue'),
+    meta: { title: 'Performance Comparison - Vue vs React' }
+  },
+  {
     path: '/comparison/:topic?',
     name: 'Comparison',
     component: () => import('../views/Comparison.vue'),

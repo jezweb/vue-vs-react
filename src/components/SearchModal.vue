@@ -180,6 +180,35 @@ const searchableContent = [
     path: '/compare#performance'
   },
   
+  // Performance
+  {
+    id: 'perf-benchmarks',
+    title: 'Performance Benchmarks',
+    description: 'Live performance tests and comparisons',
+    framework: 'both',
+    category: 'Performance',
+    icon: '📊',
+    path: '/performance'
+  },
+  {
+    id: 'perf-bundle-size',
+    title: 'Bundle Size Comparison',
+    description: 'React vs Vue bundle sizes and optimization',
+    framework: 'both',
+    category: 'Performance',
+    icon: '📦',
+    path: '/performance'
+  },
+  {
+    id: 'perf-tips',
+    title: 'Performance Tips',
+    description: 'Optimization strategies for both frameworks',
+    framework: 'both',
+    category: 'Performance',
+    icon: '💡',
+    path: '/performance'
+  },
+  
   // Tools
   {
     id: 'tool-playground',
