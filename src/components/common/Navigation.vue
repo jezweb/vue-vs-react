@@ -23,12 +23,12 @@
             <span v-if="$route.path === '/'" class="absolute -bottom-6 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"></span>
           </router-link>
           <router-link
-            to="/comparison"
+            to="/compare"
             class="relative text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            :class="{ 'text-blue-600 dark:text-blue-400': $route.path.startsWith('/comparison') }"
+            :class="{ 'text-blue-600 dark:text-blue-400': $route.path === '/compare' }"
           >
             Compare
-            <span v-if="$route.path.startsWith('/comparison')" class="absolute -bottom-6 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"></span>
+            <span v-if="$route.path === '/compare'" class="absolute -bottom-6 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"></span>
           </router-link>
           <router-link
             to="/learn"
@@ -54,6 +54,17 @@
             Decision Helper
             <span v-if="$route.path === '/decision-helper'" class="absolute -bottom-6 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"></span>
           </router-link>
+          
+          <!-- Search Button -->
+          <button
+            @click="searchOpen = true"
+            class="p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors flex items-center space-x-2"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <kbd class="hidden lg:inline-block px-1.5 py-0.5 text-xs text-gray-500 bg-gray-100 dark:bg-gray-700 rounded">⌘K</kbd>
+          </button>
           
           <!-- Theme Toggle -->
           <button
@@ -99,7 +110,7 @@
           Home
         </router-link>
         <router-link
-          to="/comparison"
+          to="/compare"
           class="block py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
           @click="mobileMenuOpen = false"
         >
@@ -130,15 +141,20 @@
     </transition>
     </div>
   </nav>
+  
+  <!-- Search Modal -->
+  <SearchModal :is-open="searchOpen" @close="searchOpen = false" />
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
+import SearchModal from '../SearchModal.vue'
 
 const route = useRoute()
 const mobileMenuOpen = ref(false)
 const isDark = ref(false)
+const searchOpen = ref(false)
 
 const toggleTheme = () => {
   isDark.value = !isDark.value
@@ -159,6 +175,21 @@ onMounted(() => {
   if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
     isDark.value = true
     document.documentElement.classList.add('dark')
+  }
+  
+  // Add keyboard shortcut for search
+  const handleKeydown = (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+      e.preventDefault()
+      searchOpen.value = true
+    }
+  }
+  
+  document.addEventListener('keydown', handleKeydown)
+  
+  // Cleanup
+  return () => {
+    document.removeEventListener('keydown', handleKeydown)
   }
 })
 </script>
