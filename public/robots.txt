@@ -1,0 +1,13 @@
+# Robots.txt for Vue vs React Comparison Website
+
+# Allow all crawlers
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /admin/
+
+# Sitemap location
+Sitemap: https://vuevreact.com/sitemap.xml
+
+# Crawl delay (be nice to servers)
+Crawl-delay: 1
