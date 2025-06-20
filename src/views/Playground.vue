@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+  <div class="h-screen bg-gray-100 dark:bg-gray-900">
     <div class="h-full flex flex-col">
       <!-- Header -->
       <div class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 p-4">
@@ -33,19 +33,20 @@
       </div>
       
       <!-- Playground Content -->
-      <div class="flex-1 flex">
+      <div class="flex-1 flex" style="height: calc(100vh - 200px);">
         <!-- React Editor -->
         <div class="flex-1 flex flex-col border-r border-gray-300 dark:border-gray-700">
           <div class="bg-react-dark text-white p-3 font-semibold flex items-center">
             <span class="text-react-blue mr-2">⚛</span> React
           </div>
-          <div class="flex-1">
+          <div class="flex-1" style="min-height: 0;">
             <vue-monaco-editor
               v-model:value="reactCode"
               :options="editorOptions"
               language="javascript"
               theme="vs-dark"
               @mount="handleReactEditorMount"
+              style="height: 100%;"
             />
           </div>
         </div>
@@ -55,20 +56,21 @@
           <div class="bg-vue-dark text-white p-3 font-semibold flex items-center">
             <span class="text-vue-green mr-2">▲</span> Vue
           </div>
-          <div class="flex-1">
+          <div class="flex-1" style="min-height: 0;">
             <vue-monaco-editor
               v-model:value="vueCode"
               :options="editorOptions"
               language="javascript"
               theme="vs-dark"
               @mount="handleVueEditorMount"
+              style="height: 100%;"
             />
           </div>
         </div>
       </div>
       
       <!-- Output Preview -->
-      <div class="h-96 bg-white dark:bg-gray-800 border-t border-gray-300 dark:border-gray-700">
+      <div class="bg-white dark:bg-gray-800 border-t border-gray-300 dark:border-gray-700" style="height: 300px;">
         <div class="p-3 border-b border-gray-200 dark:border-gray-700 font-semibold text-gray-700 dark:text-gray-300 flex justify-between items-center">
           <span>Output Preview</span>
           <div class="flex gap-2">
@@ -115,7 +117,7 @@
               :srcdoc="reactOutput"
               class="w-full h-full bg-white"
               sandbox="allow-scripts"
-              style="height: calc(100% - 52px);"
+              style="height: calc(300px - 52px);"
             ></iframe>
             <!-- Vue Output -->
             <iframe
@@ -124,7 +126,7 @@
               :srcdoc="vueOutput"
               class="w-full h-full bg-white"
               sandbox="allow-scripts"
-              style="height: calc(100% - 52px);"
+              style="height: calc(300px - 52px);"
             ></iframe>
           </div>
         </div>
@@ -134,7 +136,7 @@
 </template>
 
 <script setup>
-import { ref, shallowRef, onMounted } from 'vue'
+import { ref, shallowRef, onMounted, onUnmounted } from 'vue'
 import { VueMonacoEditor } from '@guolao/vue-monaco-editor'
 import LoadingSpinner from '../components/common/LoadingSpinner.vue'
 
@@ -205,7 +207,12 @@ const editorOptions = {
   suggestOnTriggerCharacters: true,
   acceptSuggestionOnEnter: 'on',
   tabCompletion: 'on',
-  wordBasedSuggestions: true
+  wordBasedSuggestions: true,
+  theme: 'vs-dark',
+  padding: { top: 10, bottom: 10 },
+  folding: true,
+  selectOnLineNumbers: true,
+  mouseWheelZoom: true
 }
 
 const examples = {
@@ -459,10 +466,18 @@ onMounted(() => {
 
 const handleReactEditorMount = (editor) => {
   reactEditor.value = editor
+  // Force layout after a brief delay to ensure proper rendering
+  setTimeout(() => {
+    editor.layout()
+  }, 100)
 }
 
 const handleVueEditorMount = (editor) => {
   vueEditor.value = editor
+  // Force layout after a brief delay to ensure proper rendering
+  setTimeout(() => {
+    editor.layout()
+  }, 100)
 }
 
 const loadExample = () => {
@@ -695,12 +710,49 @@ onMounted(() => {
       console.error('Failed to load shared code:', err)
     }
   }
+
+  // Handle window resize to layout editors properly
+  const handleResize = () => {
+    if (reactEditor.value) {
+      reactEditor.value.layout()
+    }
+    if (vueEditor.value) {
+      vueEditor.value.layout()
+    }
+  }
+
+  window.addEventListener('resize', handleResize)
+  
+  // Initial layout after mount
+  setTimeout(() => {
+    handleResize()
+  }, 200)
+
+  // Cleanup on unmount
+  onUnmounted(() => {
+    window.removeEventListener('resize', handleResize)
+  })
 })
 </script>
 
-<style>
-/* Ensure Monaco Editor takes full height */
+<style scoped>
+/* Ensure Monaco Editor takes full height and width */
 .vue-monaco-editor {
+  height: 100% !important;
+  width: 100% !important;
+}
+
+/* Fix flex container height issues */
+.flex-1 {
+  min-height: 0;
+}
+
+/* Ensure editor containers are properly sized */
+:deep(.monaco-editor) {
+  height: 100% !important;
+}
+
+:deep(.monaco-editor .overflow-guard) {
   height: 100% !important;
 }
 </style>
