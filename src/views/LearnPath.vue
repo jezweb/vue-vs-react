@@ -653,7 +653,21 @@ ${'<'}body${'>'}
     const { useState, useEffect } = React;
     ${code}
     
-    const App = HelloWorld || Counter || Timer || TodoList || (() => ${'<'}div${'>'}No component found${'<'}\/div${'>'}); 
+    // Try to find any component function defined in the code
+    let App;
+    try {
+      App = HelloWorld || Counter || Timer || TodoList || UserList || (() => ${'<'}div${'>'}No component found${'<'}\/div${'>'}); 
+    } catch (e) {
+      // If component variables don't exist, try to find the last function
+      const functionNames = code.match(/function\\s+(\\w+)/g);
+      if (functionNames && functionNames.length > 0) {
+        const lastFunction = functionNames[functionNames.length - 1].replace('function ', '');
+        App = eval(lastFunction);
+      } else {
+        App = () => ${'<'}div${'>'}No component found${'<'}\/div${'>'}; 
+      }
+    }
+    
     ReactDOM.createRoot(document.getElementById('root')).render(${'<'}App \/${'>'});
   ${'<'}\/script${'>'}
 ${'<'}\/body${'>'}
@@ -661,8 +675,8 @@ ${'<'}\/html${'>'}`
 }
 
 const generateVueOutput = (code) => {
-  const templateMatch = code.match(/&lt;template&gt;([\s\S]*?)&lt;\/template&gt;/)
-  const scriptMatch = code.match(/&lt;script setup&gt;([\s\S]*?)&lt;\/script&gt;/)
+  const templateMatch = code.match(/<template>([\s\S]*?)<\/template>/)
+  const scriptMatch = code.match(/<script setup>([\s\S]*?)<\/script>/)
   
   const template = templateMatch ? templateMatch[1].trim() : ''
   const script = scriptMatch ? scriptMatch[1].trim() : ''
@@ -679,23 +693,39 @@ ${'<'}head${'>'}
   ${'<'}\/style${'>'}
 ${'<'}\/head${'>'}
 ${'<'}body${'>'}
-  ${'<'}div id="app"${'>'} ${template}${'<'}\/div${'>'}
+  ${'<'}div id="app"${'><'}\/div${'>'}
   ${'<'}script${'>'}
     const { createApp, ref, reactive, computed, watch, watchEffect, onMounted, onUnmounted } = Vue;
     
-    createApp({
-      setup() {
-        ${script}
-        
-        const exports = {};
-        ${script.match(/const\s+(\w+)/g)?.map(match => {
-          const varName = match.replace('const ', '');
-          return `exports.${varName} = ${varName};`;
-        }).join('\n') || ''}
-        
-        return exports;
-      }
-    }).mount('#app')
+    try {
+      createApp({
+        template: \`${template}\`,
+        setup() {
+          ${script}
+          
+          // Auto-export all variables and functions
+          const exports = {};
+          try {
+            ${script.match(/const\s+(\w+)/g)?.map(match => {
+              const varName = match.replace('const ', '').replace(/\s+/g, '');
+              return `if (typeof ${varName} !== 'undefined') exports.${varName} = ${varName};`;
+            }).join('\n') || ''}
+            
+            ${script.match(/function\s+(\w+)/g)?.map(match => {
+              const funcName = match.replace('function ', '').replace(/\s+/g, '');
+              return `if (typeof ${funcName} !== 'undefined') exports.${funcName} = ${funcName};`;
+            }).join('\n') || ''}
+          } catch (e) {
+            console.error('Export error:', e);
+          }
+          
+          return exports;
+        }
+      }).mount('#app')
+    } catch (error) {
+      console.error('Vue mount error:', error);
+      document.getElementById('app').innerHTML = '${'<'}div style="color: red; padding: 20px;"${'>'}Error: ' + error.message + '${'<'}\/div${'>'};
+    }
   ${'<'}\/script${'>'}
 ${'<'}\/body${'>'}
 ${'<'}\/html${'>'}`
