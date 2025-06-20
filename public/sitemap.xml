@@ -1,79 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://vuevreact.com/</loc>
+    <loc>https://jezweb.github.io/vue-vs-react/</loc>
     <lastmod>2025-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://vuevreact.com/comparison</loc>
+    <loc>https://jezweb.github.io/vue-vs-react/comparison</loc>
     <lastmod>2025-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://vuevreact.com/comparison/components</loc>
+    <loc>https://jezweb.github.io/vue-vs-react/comparison/components</loc>
     <lastmod>2025-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vuevreact.com/comparison/state-management</loc>
+    <loc>https://jezweb.github.io/vue-vs-react/comparison/state-management</loc>
     <lastmod>2025-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vuevreact.com/comparison/lifecycle</loc>
+    <loc>https://jezweb.github.io/vue-vs-react/comparison/lifecycle</loc>
     <lastmod>2025-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vuevreact.com/comparison/events</loc>
+    <loc>https://jezweb.github.io/vue-vs-react/comparison/events</loc>
     <lastmod>2025-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vuevreact.com/comparison/conditional</loc>
+    <loc>https://jezweb.github.io/vue-vs-react/comparison/conditional</loc>
     <lastmod>2025-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vuevreact.com/comparison/lists</loc>
+    <loc>https://jezweb.github.io/vue-vs-react/comparison/lists</loc>
     <lastmod>2025-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vuevreact.com/comparison/forms</loc>
+    <loc>https://jezweb.github.io/vue-vs-react/comparison/forms</loc>
     <lastmod>2025-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vuevreact.com/comparison/effects</loc>
+    <loc>https://jezweb.github.io/vue-vs-react/comparison/effects</loc>
     <lastmod>2025-06-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vuevreact.com/learn</loc>
+    <loc>https://jezweb.github.io/vue-vs-react/learn</loc>
     <lastmod>2025-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://vuevreact.com/playground</loc>
+    <loc>https://jezweb.github.io/vue-vs-react/playground</loc>
     <lastmod>2025-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://vuevreact.com/decision-helper</loc>
+    <loc>https://jezweb.github.io/vue-vs-react/decision-helper</loc>
     <lastmod>2025-06-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>

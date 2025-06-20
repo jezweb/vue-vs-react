@@ -1,7 +1,7 @@
 import { writeFileSync } from 'fs'
 import { resolve } from 'path'
 
-const baseUrl = 'https://vuevreact.com'
+const baseUrl = 'https://jezweb.github.io/vue-vs-react'
 
 const routes = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },

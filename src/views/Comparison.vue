@@ -25,30 +25,44 @@
       <!-- Comparison Content -->
       <div class="grid md:grid-cols-2 gap-8">
         <!-- React Side -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+        <div 
+          v-motion
+          :initial="{ opacity: 0, x: -30 }"
+          :enter="{ opacity: 1, x: 0 }"
+          class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden"
+        >
           <div class="bg-react-dark text-white p-4">
             <h2 class="text-xl font-semibold flex items-center">
               <span class="text-react-blue mr-2">⚛</span> React
             </h2>
           </div>
           <div class="p-6">
-            <pre class="bg-gray-50 dark:bg-gray-950 border border-gray-200 dark:border-gray-700 p-4 rounded-lg overflow-x-auto">
-              <code class="text-sm font-mono text-gray-800 dark:text-gray-200">{{ getReactCode() }}</code>
-            </pre>
+            <transition name="code-fade" mode="out-in">
+              <pre :key="selectedTopic" class="bg-gray-50 dark:bg-gray-950 border border-gray-200 dark:border-gray-700 p-4 rounded-lg overflow-x-auto">
+                <code class="text-sm font-mono text-gray-800 dark:text-gray-200">{{ getReactCode() }}</code>
+              </pre>
+            </transition>
           </div>
         </div>
         
         <!-- Vue Side -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+        <div 
+          v-motion
+          :initial="{ opacity: 0, x: 30 }"
+          :enter="{ opacity: 1, x: 0 }"
+          class="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden"
+        >
           <div class="bg-vue-dark text-white p-4">
             <h2 class="text-xl font-semibold flex items-center">
               <span class="text-vue-green mr-2">▲</span> Vue
             </h2>
           </div>
           <div class="p-6">
-            <pre class="bg-gray-50 dark:bg-gray-950 border border-gray-200 dark:border-gray-700 p-4 rounded-lg overflow-x-auto">
-              <code class="text-sm font-mono text-gray-800 dark:text-gray-200">{{ getVueCode() }}</code>
-            </pre>
+            <transition name="code-fade" mode="out-in">
+              <pre :key="selectedTopic" class="bg-gray-50 dark:bg-gray-950 border border-gray-200 dark:border-gray-700 p-4 rounded-lg overflow-x-auto">
+                <code class="text-sm font-mono text-gray-800 dark:text-gray-200">{{ getVueCode() }}</code>
+              </pre>
+            </transition>
           </div>
         </div>
       </div>
@@ -393,3 +407,15 @@ const getExplanation = () => {
   return codeExamples[selectedTopic.value]?.explanation || 'Select a topic to see the explanation'
 }
 </script>
+
+<style scoped>
+.code-fade-enter-active,
+.code-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.code-fade-enter-from,
+.code-fade-leave-to {
+  opacity: 0;
+}
+</style>

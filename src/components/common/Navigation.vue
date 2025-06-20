@@ -16,38 +16,43 @@
         <div class="hidden md:flex items-center space-x-8">
           <router-link
             to="/"
-            class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            class="relative text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             :class="{ 'text-blue-600 dark:text-blue-400': $route.path === '/' }"
           >
             Home
+            <span v-if="$route.path === '/'" class="absolute -bottom-6 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"></span>
           </router-link>
           <router-link
             to="/comparison"
-            class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            class="relative text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             :class="{ 'text-blue-600 dark:text-blue-400': $route.path.startsWith('/comparison') }"
           >
             Compare
+            <span v-if="$route.path.startsWith('/comparison')" class="absolute -bottom-6 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"></span>
           </router-link>
           <router-link
             to="/learn"
-            class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            class="relative text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             :class="{ 'text-blue-600 dark:text-blue-400': $route.path === '/learn' }"
           >
             Learn
+            <span v-if="$route.path === '/learn'" class="absolute -bottom-6 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"></span>
           </router-link>
           <router-link
             to="/playground"
-            class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            class="relative text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             :class="{ 'text-blue-600 dark:text-blue-400': $route.path === '/playground' }"
           >
             Playground
+            <span v-if="$route.path === '/playground'" class="absolute -bottom-6 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"></span>
           </router-link>
           <router-link
             to="/decision-helper"
-            class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            class="relative text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
             :class="{ 'text-blue-600 dark:text-blue-400': $route.path === '/decision-helper' }"
           >
             Decision Helper
+            <span v-if="$route.path === '/decision-helper'" class="absolute -bottom-6 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"></span>
           </router-link>
           
           <!-- Theme Toggle -->
@@ -77,7 +82,15 @@
       </div>
       
       <!-- Mobile Menu -->
-      <div v-if="mobileMenuOpen" class="md:hidden pb-4">
+      <transition
+        enter-active-class="transition ease-out duration-200"
+        enter-from-class="opacity-0 -translate-y-1"
+        enter-to-class="opacity-100 translate-y-0"
+        leave-active-class="transition ease-in duration-150"
+        leave-from-class="opacity-100 translate-y-0"
+        leave-to-class="opacity-0 -translate-y-1"
+      >
+        <div v-if="mobileMenuOpen" class="md:hidden pb-4">
         <router-link
           to="/"
           class="block py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
@@ -114,6 +127,7 @@
           Decision Helper
         </router-link>
       </div>
+    </transition>
     </div>
   </nav>
 </template>

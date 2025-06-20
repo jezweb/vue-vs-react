@@ -52,7 +52,7 @@ export function useSEO() {
     updateMetaTag('og:title', config.title, 'property')
     updateMetaTag('og:description', config.description, 'property')
     updateMetaTag('og:image', config.ogImage, 'property')
-    updateMetaTag('og:url', `https://vuevreact.com${path}`, 'property')
+    updateMetaTag('og:url', `https://jezweb.github.io/vue-vs-react${path}`, 'property')
     updateMetaTag('og:type', 'website', 'property')
     
     // Update Twitter tags
@@ -62,7 +62,7 @@ export function useSEO() {
     updateMetaTag('twitter:image', config.ogImage, 'property')
     
     // Update canonical URL
-    updateCanonical(`https://vuevreact.com${path}`)
+    updateCanonical(`https://jezweb.github.io/vue-vs-react${path}`)
     
     // Add structured data
     addStructuredData(path)
@@ -99,7 +99,7 @@ export function useSEO() {
       "@context": "https://schema.org",
       "@type": "WebSite",
       "name": "Vue vs React Comparison",
-      "url": "https://vuevreact.com",
+      "url": "https://jezweb.github.io/vue-vs-react",
       "description": "Interactive comparison of React and Vue frameworks"
     }
 
