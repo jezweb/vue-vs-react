@@ -158,11 +158,11 @@ const difficultyClass = computed(() => {
 }
 
 .react-header {
-  @apply bg-react-light dark:bg-gray-700 text-react-blue;
+  @apply bg-blue-50 dark:bg-gray-700 text-react-blue;
 }
 
 .vue-header {
-  @apply bg-vue-light dark:bg-gray-700 text-vue-green;
+  @apply bg-green-50 dark:bg-gray-700 text-vue-green;
 }
 
 .framework-icon {

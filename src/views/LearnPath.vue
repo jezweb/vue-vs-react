@@ -425,12 +425,12 @@ const vueLessons = [
         <li><strong>Composition API</strong>: Modern way to organize logic</li>
       </ul>
     `,
-    code: `<template>
+    code: `${'<'}template>
   <div>
     <h1>Hello, {{ name }}!</h1>
     <p>Welcome to Vue!</p>
   </div>
-</template>
+${'<'}/template>
 
 <script setup>
 import { ref } from 'vue'
@@ -438,7 +438,7 @@ import { ref } from 'vue'
 const name = ref('World')
 
 // Try changing the name value!
-</script>`,
+${'<'}/script>`,
     challenge: 'Add an input field to change the name dynamically'
   },
   {
@@ -456,7 +456,7 @@ const name = ref('World')
       </ul>
       <p>Vue's reactivity is more automatic than React's state management.</p>
     `,
-    code: `<template>
+    code: `${'<'}template>
   <div>
     <h2>Count: {{ count }}</h2>
     <p>Double: {{ doubleCount }}</p>
@@ -467,14 +467,14 @@ const name = ref('World')
       Decrement
     </button>
   </div>
-</template>
+${'<'}/template>
 
 <script setup>
 import { ref, computed } from 'vue'
 
 const count = ref(0)
 const doubleCount = computed(() => count.value * 2)
-</script>`,
+${'<'}/script>`,
     challenge: 'Add a computed property that shows if the number is even or odd'
   },
   {
@@ -491,12 +491,12 @@ const doubleCount = computed(() => count.value * 2)
       </ul>
       <p><code>watch</code> and <code>watchEffect</code> observe reactive data changes.</p>
     `,
-    code: `<template>
+    code: `${'<'}template>
   <div>
     <h2>Timer: {{ seconds }}s</h2>
     <p>Status: {{ status }}</p>
   </div>
-</template>
+${'<'}/template>
 
 <script setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue'
@@ -521,7 +521,7 @@ watch(seconds, (newVal) => {
     status.value = 'Reached 10 seconds!'
   }
 })
-</script>`,
+${'<'}/script>`,
     challenge: 'Add buttons to pause and reset the timer'
   },
   {
@@ -539,7 +539,7 @@ watch(seconds, (newVal) => {
         <li>Can be used with <code>template</code> for multiple elements</li>
       </ul>
     `,
-    code: `<template>
+    code: `${'<'}template>
   <div>
     <h2>My Todos</h2>
     <ul>
@@ -556,7 +556,7 @@ watch(seconds, (newVal) => {
       </li>
     </ul>
   </div>
-</template>
+${'<'}/template>
 
 <script setup>
 import { ref } from 'vue'
@@ -572,7 +572,7 @@ const toggleTodo = (id) => {
     todo.done = !todo.done
   }
 }
-</script>`,
+${'<'}/script>`,
     challenge: 'Add v-model binding to add new todos with an input field'
   }
 ]
@@ -635,52 +635,52 @@ const runLessonCode = () => {
 
 const generateReactOutput = (code) => {
   return `<!DOCTYPE html>
-<html>
-<head>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"><\/script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"><\/script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"><\/script>
-  <style>
+${'<'}html${'>'}
+${'<'}head${'>'}
+  ${'<'}script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"${'><'}\/script${'>'}
+  ${'<'}script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"${'><'}\/script${'>'}
+  ${'<'}script src="https://unpkg.com/@babel/standalone/babel.min.js"${'><'}\/script${'>'}
+  ${'<'}style${'>'}
     body { font-family: Arial, sans-serif; padding: 20px; }
     button { padding: 8px 16px; margin: 4px; cursor: pointer; }
     ul { list-style: none; padding: 0; }
     li { padding: 8px; margin: 4px 0; background: #f0f0f0; }
-  </style>
-</head>
-<body>
-  <div id="root"></div>
-  <script type="text/babel">
+  ${'<'}\/style${'>'}
+${'<'}\/head${'>'}
+${'<'}body${'>'}
+  ${'<'}div id="root"${'><'}\/div${'>'}
+  ${'<'}script type="text/babel"${'>'}
     const { useState, useEffect } = React;
     ${code}
     
-    const App = HelloWorld || Counter || Timer || TodoList || (() => <div>No component found</div>);
-    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
-  <\/script>
-</body>
-</html>`
+    const App = HelloWorld || Counter || Timer || TodoList || (() => ${'<'}div${'>'}No component found${'<'}\/div${'>'}); 
+    ReactDOM.createRoot(document.getElementById('root')).render(${'<'}App \/${'>'});
+  ${'<'}\/script${'>'}
+${'<'}\/body${'>'}
+${'<'}\/html${'>'}`
 }
 
 const generateVueOutput = (code) => {
-  const templateMatch = code.match(/<template>([\s\S]*?)<\/template>/)
-  const scriptMatch = code.match(/<script setup>([\s\S]*?)<\/script>/)
+  const templateMatch = code.match(/&lt;template&gt;([\s\S]*?)&lt;\/template&gt;/)
+  const scriptMatch = code.match(/&lt;script setup&gt;([\s\S]*?)&lt;\/script&gt;/)
   
   const template = templateMatch ? templateMatch[1].trim() : ''
   const script = scriptMatch ? scriptMatch[1].trim() : ''
   
   return `<!DOCTYPE html>
-<html>
-<head>
-  <script src="https://unpkg.com/vue@3/dist/vue.global.js"><\/script>
-  <style>
+${'<'}html${'>'}
+${'<'}head${'>'}
+  ${'<'}script src="https://unpkg.com/vue@3/dist/vue.global.js"${'><'}\/script${'>'}
+  ${'<'}style${'>'}
     body { font-family: Arial, sans-serif; padding: 20px; }
     button { padding: 8px 16px; margin: 4px; cursor: pointer; }
     ul { list-style: none; padding: 0; }
     li { padding: 8px; margin: 4px 0; background: #f0f0f0; }
-  </style>
-</head>
-<body>
-  <div id="app">${template}</div>
-  <script>
+  ${'<'}\/style${'>'}
+${'<'}\/head${'>'}
+${'<'}body${'>'}
+  ${'<'}div id="app"${'>'} ${template}${'<'}\/div${'>'}
+  ${'<'}script${'>'}
     const { createApp, ref, reactive, computed, watch, watchEffect, onMounted, onUnmounted } = Vue;
     
     createApp({
@@ -696,9 +696,9 @@ const generateVueOutput = (code) => {
         return exports;
       }
     }).mount('#app')
-  <\/script>
-</body>
-</html>`
+  ${'<'}\/script${'>'}
+${'<'}\/body${'>'}
+${'<'}\/html${'>'}`
 }
 
 const completeLesson = () => {

@@ -191,11 +191,11 @@ const getWinnerMargin = (metric) => {
 }
 
 .winner-react {
-  @apply text-react-blue bg-react-light;
+  @apply text-react-blue bg-blue-50;
 }
 
 .winner-vue {
-  @apply text-vue-green bg-vue-light;
+  @apply text-vue-green bg-green-50;
 }
 
 .legend {

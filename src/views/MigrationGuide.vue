@@ -275,29 +275,29 @@ function Counter() {
   const [count, setCount] = useState(0);
   
   return (
-    <div>
-      <p>Count: {count}</p>
-      <button onClick={() => setCount(count + 1)}>
+    ${'<'}div${'>'}
+      ${'<'}p${'>'}Count: {count}${'<'}/p${'>'}
+      ${'<'}button onClick={() => setCount(count + 1)}${'>'}
         Increment
-      </button>
-    </div>
+      ${'<'}/button${'>'}
+    ${'<'}/div${'>'}
   );
 }`,
-    to: `<!-- Vue Component -->
-<template>
-  <div>
-    <p>Count: {{ count }}</p>
-    <button @click="count++">
+    to: `${'<'}!-- Vue Component --${'>'}
+${'<'}template${'>'}
+  ${'<'}div${'>'}
+    ${'<'}p${'>'}Count: {{ count }}${'<'}/p${'>'}
+    ${'<'}button @click="count++"${'>'}
       Increment
-    </button>
-  </div>
-</template>
+    ${'<'}/button${'>'}
+  ${'<'}/div${'>'}
+${'<'}/template${'>'}
 
-<script setup>
+${'<'}script setup${'>'}
 import { ref } from 'vue'
 
 const count = ref(0)
-</script>`
+${'<'}/script${'>'}>`
   },
   {
     id: 2,
@@ -312,17 +312,17 @@ function UserProfile({ userId }) {
     fetchUser(userId).then(setUser);
   }, [userId]);
   
-  if (!user) return <div>Loading...</div>;
+  if (!user) return ${'<'}div${'>'}Loading...${'<'}/div${'>'}
   
-  return <div>{user.name}</div>;
+  return ${'<'}div${'>'}{user.name}${'<'}/div${'>'}
 }`,
-    to: `<!-- Vue Component -->
-<template>
-  <div v-if="user">{{ user.name }}</div>
-  <div v-else>Loading...</div>
-</template>
+    to: `${'<'}!-- Vue Component --${'>'}
+${'<'}template${'>'}
+  ${'<'}div v-if="user"${'>'} {{ user.name }}${'<'}/div${'>'}
+  ${'<'}div v-else${'>'}Loading...${'<'}/div${'>'}
+${'<'}/template${'>'}
 
-<script setup>
+${'<'}script setup${'>'}
 import { ref, watch } from 'vue'
 
 const props = defineProps(['userId'])
@@ -331,7 +331,7 @@ const user = ref(null)
 watch(() => props.userId, async (newId) => {
   user.value = await fetchUser(newId)
 }, { immediate: true })
-</script>`
+${'<'}/script${'>'}>`
   },
   {
     id: 3,
@@ -339,27 +339,27 @@ watch(() => props.userId, async (newId) => {
     from: `// React Component
 function TodoList({ todos }) {
   return (
-    <ul>
+    ${'<'}ul${'>'}
       {todos.map(todo => (
-        <li key={todo.id}>
+        ${'<'}li key={todo.id}${'>'}
           {todo.text}
-        </li>
+        ${'<'}/li${'>'}
       ))}
-    </ul>
+    ${'<'}/ul${'>'}
   );
 }`,
-    to: `<!-- Vue Component -->
-<template>
-  <ul>
-    <li v-for="todo in todos" :key="todo.id">
+    to: `${'<'}!-- Vue Component --${'>'}
+${'<'}template${'>'}
+  ${'<'}ul${'>'}
+    ${'<'}li v-for="todo in todos" :key="todo.id"${'>'}
       {{ todo.text }}
-    </li>
-  </ul>
-</template>
+    ${'<'}/li${'>'}
+  ${'<'}/ul${'>'}
+${'<'}/template${'>'}
 
-<script setup>
+${'<'}script setup${'>'}
 defineProps(['todos'])
-</script>`
+${'<'}/script${'>'}>`
   }
 ]
 
@@ -367,16 +367,16 @@ const vueToReactExamples = [
   {
     id: 1,
     title: 'Component with Computed Properties',
-    from: `<!-- Vue Component -->
-<template>
-  <div>
-    <input v-model="firstName" />
-    <input v-model="lastName" />
-    <p>Full name: {{ fullName }}</p>
-  </div>
-</template>
+    from: `${'<'}!-- Vue Component --${'>'}
+${'<'}template${'>'}
+  ${'<'}div${'>'}
+    ${'<'}input v-model="firstName" /${'>'}
+    ${'<'}input v-model="lastName" /${'>'}
+    ${'<'}p${'>'}Full name: {{ fullName }}${'<'}/p${'>'}
+  ${'<'}/div${'>'}
+${'<'}/template${'>'}
 
-<script setup>
+${'<'}script setup${'>'}
 import { ref, computed } from 'vue'
 
 const firstName = ref('')
@@ -385,7 +385,7 @@ const lastName = ref('')
 const fullName = computed(() => 
   \`\${firstName.value} \${lastName.value}\`
 )
-</script>`,
+${'<'}/script${'>'}>`,
     to: `// React Component
 import React, { useState, useMemo } from 'react';
 
@@ -399,66 +399,66 @@ function NameForm() {
   );
   
   return (
-    <div>
-      <input 
+    ${'<'}div${'>'}
+      ${'<'}input 
         value={firstName}
         onChange={e => setFirstName(e.target.value)}
-      />
-      <input 
+      /${'>'}
+      ${'<'}input 
         value={lastName}
         onChange={e => setLastName(e.target.value)}
-      />
-      <p>Full name: {fullName}</p>
-    </div>
+      /${'>'}
+      ${'<'}p${'>'}Full name: {fullName}${'<'}/p${'>'}
+    ${'<'}/div${'>'}
   );
 }`
   },
   {
     id: 2,
     title: 'Component with Slots/Children',
-    from: `<!-- Vue Component -->
-<template>
-  <div class="card">
-    <h2>{{ title }}</h2>
-    <slot></slot>
-    <slot name="footer"></slot>
-  </div>
-</template>
+    from: `${'<'}!-- Vue Component --${'>'}
+${'<'}template${'>'}
+  ${'<'}div class="card"${'>'}
+    ${'<'}h2${'>'} {{ title }}${'<'}/h2${'>'}
+    ${'<'}slot${'>'} ${'<'}/slot${'>'}
+    ${'<'}slot name="footer"${'>'} ${'<'}/slot${'>'}
+  ${'<'}/div${'>'}
+${'<'}/template${'>'}
 
-<script setup>
+${'<'}script setup${'>'}
 defineProps(['title'])
-</script>`,
+${'<'}/script${'>'}>`,
     to: `// React Component
 function Card({ title, children, footer }) {
   return (
-    <div className="card">
-      <h2>{title}</h2>
+    ${'<'}div className="card"${'>'}
+      ${'<'}h2${'>'}{title}${'<'}/h2${'>'}
       {children}
       {footer}
-    </div>
+    ${'<'}/div${'>'}
   );
 }
 
 // Usage
-<Card 
+${'<'}Card 
   title="My Card"
-  footer={<div>Footer content</div>}
->
+  footer={${'<'}div${'>'}>Footer content${'<'}/div${'>'}}>
+${'>'}>
   Main content
-</Card>`
+${'<'}/Card${'>'}`
   },
   {
     id: 3,
     title: 'Event Handling',
-    from: `<!-- Vue Component -->
-<template>
-  <form @submit.prevent="handleSubmit">
-    <input v-model="input" />
-    <button type="submit">Submit</button>
-  </form>
-</template>
+    from: `${'<'}!-- Vue Component --${'>'}
+${'<'}template${'>'}
+  ${'<'}form @submit.prevent="handleSubmit"${'>'}
+    ${'<'}input v-model="input" /${'>'}
+    ${'<'}button type="submit"${'>'}Submit${'<'}/button${'>'}
+  ${'<'}/form${'>'}
+${'<'}/template${'>'}
 
-<script setup>
+${'<'}script setup${'>'}
 import { ref } from 'vue'
 
 const input = ref('')
@@ -468,7 +468,7 @@ const handleSubmit = () => {
   emit('submit', input.value)
   input.value = ''
 }
-</script>`,
+${'<'}/script${'>'}>`,
     to: `// React Component
 import React, { useState } from 'react';
 
@@ -482,13 +482,13 @@ function Form({ onSubmit }) {
   };
   
   return (
-    <form onSubmit={handleSubmit}>
-      <input 
+    ${'<'}form onSubmit={handleSubmit}${'>'}
+      ${'<'}input 
         value={input}
         onChange={e => setInput(e.target.value)}
-      />
-      <button type="submit">Submit</button>
-    </form>
+      /${'>'}
+      ${'<'}button type="submit"${'>'}Submit${'<'}/button${'>'}
+    ${'<'}/form${'>'}
   );
 }`
   }
