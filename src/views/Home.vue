@@ -100,44 +100,131 @@
         </h2>
         
         <div class="grid md:grid-cols-3 gap-6">
-          <div 
+          <router-link
+            to="/examples"
             v-motion
             :initial="{ opacity: 0, y: 50 }"
             :visible="{ opacity: 1, y: 0, transition: { delay: 100 } }"
-            class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg hover:-translate-y-1 transition-all"
+            class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg hover:-translate-y-1 transition-all block"
           >
-            <div class="text-3xl mb-4">▷</div>
-            <h3 class="text-xl font-semibold mb-2">Side-by-Side Comparisons</h3>
+            <div class="text-3xl mb-4">💡</div>
+            <h3 class="text-xl font-semibold mb-2">Real-World Examples</h3>
             <p class="text-gray-600 dark:text-gray-400">
-              See the same code written in both frameworks with live examples
+              E-commerce, dashboards, and social app patterns in both frameworks
             </p>
-          </div>
+          </router-link>
           
-          <div 
+          <router-link
+            to="/case-studies"
             v-motion
             :initial="{ opacity: 0, y: 50 }"
             :visible="{ opacity: 1, y: 0, transition: { delay: 200 } }"
-            class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg hover:-translate-y-1 transition-all"
+            class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg hover:-translate-y-1 transition-all block"
+          >
+            <div class="text-3xl mb-4">🏢</div>
+            <h3 class="text-xl font-semibold mb-2">Industry Case Studies</h3>
+            <p class="text-gray-600 dark:text-gray-400">
+              Learn how Netflix, Alibaba, and others use React and Vue in production
+            </p>
+          </router-link>
+          
+          <router-link
+            to="/playground"
+            v-motion
+            :initial="{ opacity: 0, y: 50 }"
+            :visible="{ opacity: 1, y: 0, transition: { delay: 300 } }"
+            class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg hover:-translate-y-1 transition-all block"
           >
             <div class="text-3xl mb-4">▶</div>
             <h3 class="text-xl font-semibold mb-2">Interactive Playground</h3>
             <p class="text-gray-600 dark:text-gray-400">
               Write and test code in both React and Vue simultaneously
             </p>
-          </div>
-          
-          <div 
+          </router-link>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6 mt-6">
+          <router-link
+            to="/comparison"
             v-motion
             :initial="{ opacity: 0, y: 50 }"
-            :visible="{ opacity: 1, y: 0, transition: { delay: 300 } }"
-            class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg hover:-translate-y-1 transition-all"
+            :visible="{ opacity: 1, y: 0, transition: { delay: 400 } }"
+            class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg hover:-translate-y-1 transition-all block"
+          >
+            <div class="text-3xl mb-4">▷</div>
+            <h3 class="text-xl font-semibold mb-2">Side-by-Side Comparisons</h3>
+            <p class="text-gray-600 dark:text-gray-400">
+              See the same code written in both frameworks with live examples
+            </p>
+          </router-link>
+
+          <router-link
+            to="/performance"
+            v-motion
+            :initial="{ opacity: 0, y: 50 }"
+            :visible="{ opacity: 1, y: 0, transition: { delay: 500 } }"
+            class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg hover:-translate-y-1 transition-all block"
+          >
+            <div class="text-3xl mb-4">⚡</div>
+            <h3 class="text-xl font-semibold mb-2">Performance Benchmarks</h3>
+            <p class="text-gray-600 dark:text-gray-400">
+              Real-world performance metrics and optimization strategies
+            </p>
+          </router-link>
+          
+          <router-link
+            to="/decision-helper"
+            v-motion
+            :initial="{ opacity: 0, y: 50 }"
+            :visible="{ opacity: 1, y: 0, transition: { delay: 600 } }"
+            class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow hover:shadow-lg hover:-translate-y-1 transition-all block"
           >
             <div class="text-3xl mb-4">◉</div>
             <h3 class="text-xl font-semibold mb-2">Decision Helper</h3>
             <p class="text-gray-600 dark:text-gray-400">
               Answer questions about your project to get a personalized recommendation
             </p>
+          </router-link>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Companies -->
+    <section class="py-16 px-4">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-3xl font-bold text-center mb-12 text-gray-800 dark:text-gray-200">
+          Trusted by Industry Leaders
+        </h2>
+        
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center opacity-60">
+          <div class="text-center">
+            <p class="text-xl font-bold text-react-blue">React</p>
+            <p class="text-gray-600 dark:text-gray-400">Facebook, Netflix, Uber</p>
           </div>
+          <div class="text-center">
+            <p class="text-xl font-bold text-vue-green">Vue</p>
+            <p class="text-gray-600 dark:text-gray-400">Alibaba, GitLab, BMW</p>
+          </div>
+          <div class="text-center">
+            <p class="text-xl font-bold text-react-blue">React</p>
+            <p class="text-gray-600 dark:text-gray-400">Airbnb, PayPal, Discord</p>
+          </div>
+          <div class="text-center">
+            <p class="text-xl font-bold text-vue-green">Vue</p>
+            <p class="text-gray-600 dark:text-gray-400">Grammarly, Nintendo, Adobe</p>
+          </div>
+        </div>
+        
+        <div class="text-center mt-8">
+          <router-link 
+            to="/case-studies" 
+            class="inline-flex items-center text-blue-600 hover:text-blue-700 font-medium"
+          >
+            Explore all case studies
+            <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </router-link>
         </div>
       </div>
     </section>

@@ -248,12 +248,67 @@
           </ul>
         </div>
       </div>
+
+      <!-- Real-World Benchmarks Section -->
+      <div class="benchmarks-section">
+        <h2 class="section-title">Real-World Performance Benchmarks</h2>
+        <p class="section-description">
+          Comprehensive performance metrics from production applications and standardized tests
+        </p>
+        
+        <div class="benchmarks-list">
+          <BenchmarkChart
+            v-for="benchmark in performanceBenchmarks.benchmarks"
+            :key="benchmark.id"
+            :benchmark="benchmark"
+          />
+        </div>
+
+        <!-- Real-World Tests -->
+        <div class="real-world-section">
+          <h2 class="section-title">Real-World Application Tests</h2>
+          <div class="test-cards">
+            <div 
+              v-for="test in performanceBenchmarks.realWorldTests" 
+              :key="test.name"
+              class="test-card"
+            >
+              <h3 class="test-name">{{ test.name }}</h3>
+              <p class="test-description">{{ test.description }}</p>
+              
+              <div class="test-metrics">
+                <div class="framework-column">
+                  <h4 class="framework-title react">⚛ React</h4>
+                  <div class="metric-list">
+                    <div v-for="(value, key) in test.metrics.react" :key="key" class="metric-row">
+                      <span class="metric-label">{{ formatMetricLabel(key) }}:</span>
+                      <span class="metric-value">{{ value }}</span>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="framework-column">
+                  <h4 class="framework-title vue">▲ Vue</h4>
+                  <div class="metric-list">
+                    <div v-for="(value, key) in test.metrics.vue" :key="key" class="metric-row">
+                      <span class="metric-label">{{ formatMetricLabel(key) }}:</span>
+                      <span class="metric-value">{{ value }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import BenchmarkChart from '../components/examples/BenchmarkChart.vue'
+import performanceBenchmarks from '../data/examples/performance-benchmarks.json'
 
 const selectedTest = ref('list')
 const isRunning = ref(false)
@@ -424,4 +479,157 @@ const resetBenchmark = () => {
   if (reactDemo.value) reactDemo.value.innerHTML = ''
   if (vueDemo.value) vueDemo.value.innerHTML = ''
 }
+
+const formatMetricLabel = (key) => {
+  return key
+    .replace(/([A-Z])/g, ' $1')
+    .replace(/^./, str => str.toUpperCase())
+    .trim()
+}
 </script>
+
+<style scoped>
+.benchmarks-section {
+  margin-top: 60px;
+  padding-top: 60px;
+  border-top: 2px solid #e5e7eb;
+}
+
+.dark .benchmarks-section {
+  border-top-color: #374151;
+}
+
+.section-title {
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 12px;
+  color: #1f2937;
+}
+
+.dark .section-title {
+  color: #f3f4f6;
+}
+
+.section-description {
+  text-align: center;
+  color: #6b7280;
+  margin-bottom: 40px;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.dark .section-description {
+  color: #9ca3af;
+}
+
+.benchmarks-list {
+  margin-bottom: 60px;
+}
+
+.real-world-section {
+  margin-top: 60px;
+}
+
+.test-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.test-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dark .test-card {
+  background: #1f2937;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.test-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1f2937;
+}
+
+.dark .test-name {
+  color: #f3f4f6;
+}
+
+.test-description {
+  color: #6b7280;
+  margin-bottom: 20px;
+  font-size: 0.875rem;
+}
+
+.dark .test-description {
+  color: #9ca3af;
+}
+
+.test-metrics {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.framework-column {
+  padding: 16px;
+  border-radius: 8px;
+  background: #f9fafb;
+}
+
+.dark .framework-column {
+  background: #111827;
+}
+
+.framework-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.framework-title.react {
+  color: #0969da;
+}
+
+.framework-title.vue {
+  color: #42b883;
+}
+
+.metric-list {
+  space-y: 8px;
+}
+
+.metric-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  padding: 4px 0;
+}
+
+.metric-label {
+  color: #6b7280;
+}
+
+.dark .metric-label {
+  color: #9ca3af;
+}
+
+.metric-value {
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.dark .metric-value {
+  color: #f3f4f6;
+}
+</style>

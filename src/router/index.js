@@ -9,6 +9,12 @@ const routes = [
     meta: { title: 'Vue vs React - Interactive Comparison' }
   },
   {
+    path: '/compare',
+    name: 'Comparison',
+    component: () => import('../views/Comparison.vue'),
+    meta: { title: 'Detailed Comparison' }
+  },
+  {
     path: '/learn',
     name: 'Learn',
     component: () => import('../views/LearnPath.vue'),
@@ -33,12 +39,6 @@ const routes = [
     meta: { title: 'Performance Comparison - Vue vs React' }
   },
   {
-    path: '/comparison/:topic?',
-    name: 'Comparison',
-    component: () => import('../views/Comparison.vue'),
-    meta: { title: 'Detailed Comparison' }
-  },
-  {
     path: '/community',
     name: 'Community',
     component: () => import('../views/Community.vue'),
@@ -49,6 +49,18 @@ const routes = [
     name: 'Migration',
     component: () => import('../views/MigrationGuide.vue'),
     meta: { title: 'Migration Guide - Vue vs React' }
+  },
+  {
+    path: '/examples',
+    name: 'Examples',
+    component: () => import('../views/Examples.vue'),
+    meta: { title: 'Real-World Examples - Vue vs React' }
+  },
+  {
+    path: '/case-studies',
+    name: 'CaseStudies',
+    component: () => import('../views/CaseStudies.vue'),
+    meta: { title: 'Industry Case Studies - Vue vs React' }
   }
 ]
 

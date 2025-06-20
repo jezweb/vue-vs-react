@@ -366,9 +366,9 @@ const quickLinks = [
   { name: 'Compare Frameworks', path: '/compare' },
   { name: 'Try Playground', path: '/playground' },
   { name: 'Interactive Learn', path: '/learn' },
-  { name: 'Decision Helper', path: '/decision-helper' },
-  { name: 'Community Resources', path: '/community' },
-  { name: 'Migration Guide', path: '/migration' }
+  { name: 'Real-World Examples', path: '/examples' },
+  { name: 'Case Studies', path: '/case-studies' },
+  { name: 'Decision Helper', path: '/decision-helper' }
 ]
 
 // Computed

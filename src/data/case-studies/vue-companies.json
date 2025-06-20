@@ -1,0 +1,179 @@
+{
+  "companies": [
+    {
+      "id": "alibaba",
+      "name": "Alibaba",
+      "logo": "🛒",
+      "description": "China's largest e-commerce platform using Vue at massive scale",
+      "usage": {
+        "scale": "1+ billion users",
+        "products": ["Taobao", "Tmall", "AliExpress", "1688.com"],
+        "keyFeatures": ["Product search", "Real-time bidding", "Live streaming", "Payment systems"]
+      },
+      "whyVue": "Easy learning curve for large teams and excellent performance",
+      "benefits": [
+        "Smooth migration from legacy systems",
+        "Excellent performance with large datasets",
+        "Easy integration with existing infrastructure",
+        "Strong community in China"
+      ],
+      "techStack": ["Vue", "Vuex", "Webpack", "Node.js", "Weex"],
+      "quote": "Vue's progressive nature allowed us to migrate gradually without disrupting our business.",
+      "metrics": {
+        "developmentSpeed": "40% faster feature delivery",
+        "performanceGain": "30% improvement in load times",
+        "maintainability": "50% reduction in bugs"
+      }
+    },
+    {
+      "id": "gitlab",
+      "name": "GitLab",
+      "logo": "🦊",
+      "description": "Complete DevOps platform built entirely with Vue.js",
+      "usage": {
+        "scale": "30+ million users",
+        "products": ["GitLab.com", "Self-hosted instances", "CI/CD interface", "IDE"],
+        "keyFeatures": ["Code review", "CI/CD pipelines", "Issue tracking", "Wiki"]
+      },
+      "whyVue": "Loved the simplicity and the ability to incrementally adopt it",
+      "benefits": [
+        "Gradual migration from jQuery",
+        "Great developer experience",
+        "Excellent documentation",
+        "Small bundle sizes"
+      ],
+      "techStack": ["Vue", "Vuex", "Vue Router", "GraphQL", "webpack"],
+      "quote": "Vue allowed us to modernize our frontend without a complete rewrite.",
+      "metrics": {
+        "migrationTime": "Completed in 18 months",
+        "bundleSize": "Reduced by 60%",
+        "userSatisfaction": "15% increase in NPS"
+      }
+    },
+    {
+      "id": "grammarly",
+      "name": "Grammarly",
+      "logo": "✍️",
+      "description": "AI-powered writing assistant used by millions",
+      "usage": {
+        "scale": "30+ million daily users",
+        "products": ["Web editor", "Browser extension", "Desktop app", "Mobile keyboards"],
+        "keyFeatures": ["Real-time grammar checking", "Style suggestions", "Plagiarism detection"]
+      },
+      "whyVue": "Needed reactive updates for real-time text analysis",
+      "benefits": [
+        "Excellent reactivity system",
+        "Easy state management",
+        "Great TypeScript support",
+        "Small footprint for extensions"
+      ],
+      "techStack": ["Vue 3", "Pinia", "TypeScript", "Vite", "Electron"],
+      "quote": "Vue's reactivity system is perfect for our real-time text processing needs.",
+      "metrics": {
+        "responseTime": "Sub-100ms checking",
+        "extensionSize": "Under 2MB",
+        "userEngagement": "25% increase"
+      }
+    },
+    {
+      "id": "bmw",
+      "name": "BMW",
+      "logo": "🚗",
+      "description": "Luxury automotive brand using Vue for customer-facing applications",
+      "usage": {
+        "scale": "Millions of configurator sessions",
+        "products": ["Car configurator", "Dealer portals", "Customer apps", "Service booking"],
+        "keyFeatures": ["3D visualization", "Real-time pricing", "Inventory management"]
+      },
+      "whyVue": "Excellent performance for complex, interactive applications",
+      "benefits": [
+        "Smooth 3D interactions",
+        "Easy integration with backend systems",
+        "Maintainable codebase",
+        "Great mobile performance"
+      ],
+      "techStack": ["Vue", "Nuxt.js", "Three.js", "Pinia", "Tailwind CSS"],
+      "quote": "Vue helped us create an immersive car configuration experience.",
+      "metrics": {
+        "configuratorCompletion": "35% increase",
+        "loadTime": "2.5s average",
+        "mobileUsage": "Up by 80%"
+      }
+    },
+    {
+      "id": "nintendo",
+      "name": "Nintendo",
+      "logo": "🎮",
+      "description": "Gaming giant using Vue for various web properties",
+      "usage": {
+        "scale": "100+ million Nintendo Account users",
+        "products": ["Nintendo.com", "Game sites", "Support portal", "Developer portal"],
+        "keyFeatures": ["Game catalog", "User accounts", "Online services", "Support system"]
+      },
+      "whyVue": "Simple yet powerful enough for diverse projects",
+      "benefits": [
+        "Quick development cycles",
+        "Easy onboarding for developers",
+        "Great ecosystem",
+        "Excellent performance"
+      ],
+      "techStack": ["Vue", "Nuxt.js", "Vuetify", "Firebase", "Node.js"],
+      "quote": "Vue's flexibility allows us to build everything from marketing sites to complex applications.",
+      "metrics": {
+        "developmentTime": "30% reduction",
+        "pageSpeed": "90+ Lighthouse scores",
+        "maintenance": "40% fewer issues"
+      }
+    },
+    {
+      "id": "adobe",
+      "name": "Adobe",
+      "logo": "🎨",
+      "description": "Creative software company using Vue for web applications",
+      "usage": {
+        "scale": "20+ million Creative Cloud users",
+        "products": ["Portfolio", "Behance features", "Admin tools", "Documentation sites"],
+        "keyFeatures": ["Asset management", "Collaboration tools", "Analytics dashboards"]
+      },
+      "whyVue": "Great balance of simplicity and power for diverse teams",
+      "benefits": [
+        "Rapid prototyping",
+        "Easy integration with existing tools",
+        "Strong component ecosystem",
+        "Excellent developer tools"
+      ],
+      "techStack": ["Vue", "Vuex", "Element UI", "webpack", "Jest"],
+      "quote": "Vue enables our teams to move fast while maintaining code quality.",
+      "metrics": {
+        "timeToMarket": "25% faster launches",
+        "codeReusability": "70% component sharing",
+        "developerSatisfaction": "4.5/5 rating"
+      }
+    },
+    {
+      "id": "laravel",
+      "name": "Laravel",
+      "logo": "🔴",
+      "description": "Popular PHP framework with deep Vue integration",
+      "usage": {
+        "scale": "1+ million developers",
+        "products": ["Laravel.com", "Forge", "Vapor", "Nova", "Spark"],
+        "keyFeatures": ["Documentation", "SaaS tools", "Admin panels", "API management"]
+      },
+      "whyVue": "Natural fit with Laravel's philosophy and excellent integration",
+      "benefits": [
+        "Seamless backend integration",
+        "Shared philosophy of simplicity",
+        "Great full-stack experience",
+        "Strong community overlap"
+      ],
+      "techStack": ["Vue", "Inertia.js", "Tailwind CSS", "Vite", "Laravel"],
+      "quote": "Vue and Laravel together provide an unmatched full-stack development experience.",
+      "metrics": {
+        "developerAdoption": "80% of Laravel devs use Vue",
+        "projectSpeed": "2x faster full-stack development",
+        "communityGrowth": "300% increase in 3 years"
+      }
+    }
+  ]
+}

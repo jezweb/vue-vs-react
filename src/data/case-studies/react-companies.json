@@ -1,0 +1,154 @@
+{
+  "companies": [
+    {
+      "id": "facebook",
+      "name": "Facebook / Meta",
+      "logo": "🏢",
+      "description": "The birthplace of React, using it across all their products",
+      "usage": {
+        "scale": "3+ billion users",
+        "products": ["Facebook.com", "Instagram", "WhatsApp Web", "Messenger"],
+        "keyFeatures": ["News Feed", "Stories", "Marketplace", "Video streaming"]
+      },
+      "whyReact": "Created React to solve their own scaling challenges with dynamic UIs",
+      "benefits": [
+        "Component reusability across products",
+        "Predictable state management",
+        "Excellent developer experience",
+        "Strong performance at scale"
+      ],
+      "techStack": ["React", "Relay", "GraphQL", "Flow", "Jest"],
+      "quote": "React has allowed us to build a more maintainable codebase that scales with our team.",
+      "metrics": {
+        "performanceGain": "50% faster UI updates",
+        "developerProductivity": "2x faster feature development",
+        "codeReuse": "60% component reusability"
+      }
+    },
+    {
+      "id": "netflix",
+      "name": "Netflix",
+      "logo": "🎬",
+      "description": "Streaming platform serving millions of users worldwide",
+      "usage": {
+        "scale": "230+ million subscribers",
+        "products": ["Netflix.com", "TV apps", "Mobile apps"],
+        "keyFeatures": ["Video player", "Browse experience", "Recommendations"]
+      },
+      "whyReact": "Needed high performance for their TV and mobile web experiences",
+      "benefits": [
+        "Fast initial page loads",
+        "Smooth animations on low-end devices",
+        "A/B testing capabilities",
+        "Code sharing between platforms"
+      ],
+      "techStack": ["React", "Node.js", "RxJS", "Falcor"],
+      "quote": "React's component model fits perfectly with our microservices architecture.",
+      "metrics": {
+        "startupTime": "Reduced by 70%",
+        "engagement": "15% increase in viewing time",
+        "bundleSize": "Optimized to under 200KB"
+      }
+    },
+    {
+      "id": "airbnb",
+      "name": "Airbnb",
+      "logo": "🏠",
+      "description": "Global travel marketplace with complex UI requirements",
+      "usage": {
+        "scale": "150+ million users",
+        "products": ["Airbnb.com", "Host tools", "Experience marketplace"],
+        "keyFeatures": ["Search & filters", "Maps integration", "Booking flow", "Messaging"]
+      },
+      "whyReact": "Needed a robust solution for their design system and component library",
+      "benefits": [
+        "Consistent UI across teams",
+        "Server-side rendering for SEO",
+        "Strong TypeScript support",
+        "Rich ecosystem of tools"
+      ],
+      "techStack": ["React", "TypeScript", "Apollo", "Storybook", "Enzyme"],
+      "quote": "React enabled us to create a unified design language across our products.",
+      "metrics": {
+        "pageSpeed": "40% improvement",
+        "conversionRate": "10% increase",
+        "developmentSpeed": "3x faster with component library"
+      }
+    },
+    {
+      "id": "uber",
+      "name": "Uber",
+      "logo": "🚗",
+      "description": "Real-time transportation platform with complex mapping needs",
+      "usage": {
+        "scale": "100+ million monthly users",
+        "products": ["Rider app web", "Driver portal", "Uber Eats", "Business dashboard"],
+        "keyFeatures": ["Real-time tracking", "Dynamic pricing", "Route optimization"]
+      },
+      "whyReact": "Required real-time updates and complex state management",
+      "benefits": [
+        "Efficient real-time updates",
+        "Modular architecture",
+        "Cross-platform code sharing",
+        "Strong performance on mobile web"
+      ],
+      "techStack": ["React", "Redux", "React Native", "MapboxGL", "Fusion.js"],
+      "quote": "React's ecosystem helped us move fast while maintaining quality.",
+      "metrics": {
+        "loadTime": "60% faster on mobile",
+        "realtimeLatency": "Sub-100ms updates",
+        "codeSharing": "40% between web and mobile"
+      }
+    },
+    {
+      "id": "paypal",
+      "name": "PayPal",
+      "logo": "💳",
+      "description": "Financial services requiring high security and reliability",
+      "usage": {
+        "scale": "400+ million users",
+        "products": ["Checkout flow", "Dashboard", "Business tools", "Developer portal"],
+        "keyFeatures": ["Payment processing", "Account management", "Analytics"]
+      },
+      "whyReact": "Needed enterprise-grade stability with modern development experience",
+      "benefits": [
+        "Improved security with controlled rendering",
+        "Better accessibility support",
+        "Extensive testing capabilities",
+        "Progressive enhancement"
+      ],
+      "techStack": ["React", "Node.js", "Redux", "Jest", "Webpack"],
+      "quote": "React helped us modernize our stack while maintaining enterprise reliability.",
+      "metrics": {
+        "checkoutCompletion": "8% increase",
+        "pageErrors": "45% reduction",
+        "timeToMarket": "30% faster releases"
+      }
+    },
+    {
+      "id": "discord",
+      "name": "Discord",
+      "logo": "💬",
+      "description": "Real-time communication platform for communities",
+      "usage": {
+        "scale": "150+ million monthly users",
+        "products": ["Web app", "Desktop app (Electron)", "Mobile web"],
+        "keyFeatures": ["Voice/video chat", "Real-time messaging", "Screen sharing"]
+      },
+      "whyReact": "Needed to handle thousands of real-time updates efficiently",
+      "benefits": [
+        "Excellent performance with frequent updates",
+        "Easy integration with Electron",
+        "Rich component ecosystem",
+        "Strong community support"
+      ],
+      "techStack": ["React", "Redux", "Electron", "WebRTC", "TypeScript"],
+      "quote": "React's reconciliation algorithm is perfect for our real-time needs.",
+      "metrics": {
+        "messageLatency": "Under 50ms globally",
+        "memoryUsage": "30% reduction",
+        "featureVelocity": "2x increase"
+      }
+    }
+  ]
+}

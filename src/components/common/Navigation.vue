@@ -46,14 +46,46 @@
             Playground
             <span v-if="$route.path === '/playground'" class="absolute -bottom-6 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"></span>
           </router-link>
-          <router-link
-            to="/performance"
-            class="relative text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            :class="{ 'text-blue-600 dark:text-blue-400': $route.path === '/performance' }"
-          >
-            Performance
-            <span v-if="$route.path === '/performance'" class="absolute -bottom-6 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"></span>
-          </router-link>
+          <!-- Resources Dropdown -->
+          <div class="relative group">
+            <button 
+              class="relative text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors flex items-center space-x-1"
+              :class="{ 'text-blue-600 dark:text-blue-400': isResourcesActive }"
+            >
+              <span>Resources</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+              <span v-if="isResourcesActive" class="absolute -bottom-6 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"></span>
+            </button>
+            
+            <div class="absolute left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
+              <router-link
+                to="/examples"
+                class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                Real-World Examples
+              </router-link>
+              <router-link
+                to="/case-studies"
+                class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                Case Studies
+              </router-link>
+              <router-link
+                to="/performance"
+                class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                Performance
+              </router-link>
+              <router-link
+                to="/migration"
+                class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                Migration Guide
+              </router-link>
+            </div>
+          </div>
           <router-link
             to="/decision-helper"
             class="relative text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
@@ -69,14 +101,6 @@
           >
             Community
             <span v-if="$route.path === '/community'" class="absolute -bottom-6 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"></span>
-          </router-link>
-          <router-link
-            to="/migration"
-            class="relative text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-            :class="{ 'text-blue-600 dark:text-blue-400': $route.path === '/migration' }"
-          >
-            Migration
-            <span v-if="$route.path === '/migration'" class="absolute -bottom-6 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"></span>
           </router-link>
           
           <!-- Search Button -->
@@ -155,13 +179,6 @@
           Playground
         </router-link>
         <router-link
-          to="/performance"
-          class="block py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-          @click="mobileMenuOpen = false"
-        >
-          Performance
-        </router-link>
-        <router-link
           to="/decision-helper"
           class="block py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
           @click="mobileMenuOpen = false"
@@ -175,13 +192,39 @@
         >
           Community
         </router-link>
-        <router-link
-          to="/migration"
-          class="block py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
-          @click="mobileMenuOpen = false"
-        >
-          Migration
-        </router-link>
+        
+        <!-- Resources Section -->
+        <div class="mt-2 pt-2 border-t border-gray-200 dark:border-gray-700">
+          <p class="px-2 py-1 text-xs text-gray-500 dark:text-gray-400 uppercase">Resources</p>
+          <router-link
+            to="/examples"
+            class="block py-2 pl-4 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+            @click="mobileMenuOpen = false"
+          >
+            Real-World Examples
+          </router-link>
+          <router-link
+            to="/case-studies"
+            class="block py-2 pl-4 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+            @click="mobileMenuOpen = false"
+          >
+            Case Studies
+          </router-link>
+          <router-link
+            to="/performance"
+            class="block py-2 pl-4 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+            @click="mobileMenuOpen = false"
+          >
+            Performance
+          </router-link>
+          <router-link
+            to="/migration"
+            class="block py-2 pl-4 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+            @click="mobileMenuOpen = false"
+          >
+            Migration Guide
+          </router-link>
+        </div>
       </div>
     </transition>
     </div>
@@ -192,7 +235,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import SearchModal from '../SearchModal.vue'
 
@@ -200,6 +243,10 @@ const route = useRoute()
 const mobileMenuOpen = ref(false)
 const isDark = ref(false)
 const searchOpen = ref(false)
+
+const isResourcesActive = computed(() => {
+  return ['/examples', '/case-studies', '/performance', '/migration'].includes(route.path)
+})
 
 const toggleTheme = () => {
   isDark.value = !isDark.value
