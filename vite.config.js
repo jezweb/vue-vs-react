@@ -4,7 +4,7 @@ import vue from '@vitejs/plugin-vue'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [vue()],
-  base: '/vue-vs-react/',
+  base: '/',
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
