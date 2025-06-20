@@ -661,8 +661,8 @@ const generateReactOutput = (code) => {
 }
 
 const generateVueOutput = (code) => {
-  const templateMatch = code.match(/<template>([\\s\\S]*?)<\\/template>/)
-  const scriptMatch = code.match(/<script setup>([\\s\\S]*?)<\\/script>/)
+  const templateMatch = code.match(/<template>([\s\S]*?)<\/template>/)
+  const scriptMatch = code.match(/<script setup>([\s\S]*?)<\/script>/)
   
   const template = templateMatch ? templateMatch[1].trim() : ''
   const script = scriptMatch ? scriptMatch[1].trim() : ''
@@ -688,10 +688,10 @@ const generateVueOutput = (code) => {
         ${script}
         
         const exports = {};
-        ${script.match(/const\\s+(\\w+)/g)?.map(match => {
+        ${script.match(/const\s+(\w+)/g)?.map(match => {
           const varName = match.replace('const ', '');
           return `exports.${varName} = ${varName};`;
-        }).join('\\n') || ''}
+        }).join('\n') || ''}
         
         return exports;
       }

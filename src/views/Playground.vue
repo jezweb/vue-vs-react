@@ -560,8 +560,8 @@ const generateReactHTML = (code) => {
 
 const generateVueHTML = (code) => {
   // Extract template, script, and style from Vue SFC
-  const templateMatch = code.match(/<template>([\\s\\S]*?)<\\/template>/)
-  const scriptMatch = code.match(/<script setup>([\\s\\S]*?)<\\/script>/)
+  const templateMatch = code.match(/<template>([\s\S]*?)<\/template>/)
+  const scriptMatch = code.match(/<script setup>([\s\S]*?)<\/script>/)
   
   const template = templateMatch ? templateMatch[1].trim() : '<div>No template found</div>'
   const script = scriptMatch ? scriptMatch[1].trim() : ''
