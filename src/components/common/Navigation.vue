@@ -70,6 +70,14 @@
             Community
             <span v-if="$route.path === '/community'" class="absolute -bottom-6 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"></span>
           </router-link>
+          <router-link
+            to="/migration"
+            class="relative text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            :class="{ 'text-blue-600 dark:text-blue-400': $route.path === '/migration' }"
+          >
+            Migration
+            <span v-if="$route.path === '/migration'" class="absolute -bottom-6 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"></span>
+          </router-link>
           
           <!-- Search Button -->
           <button
@@ -166,6 +174,13 @@
           @click="mobileMenuOpen = false"
         >
           Community
+        </router-link>
+        <router-link
+          to="/migration"
+          class="block py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+          @click="mobileMenuOpen = false"
+        >
+          Migration
         </router-link>
       </div>
     </transition>

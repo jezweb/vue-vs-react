@@ -43,6 +43,12 @@ const routes = [
     name: 'Community',
     component: () => import('../views/Community.vue'),
     meta: { title: 'Community Resources - Vue vs React' }
+  },
+  {
+    path: '/migration',
+    name: 'Migration',
+    component: () => import('../views/MigrationGuide.vue'),
+    meta: { title: 'Migration Guide - Vue vs React' }
   }
 ]
 

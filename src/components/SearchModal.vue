@@ -321,6 +321,44 @@ const searchableContent = [
     category: 'Community',
     icon: '💼',
     path: '/community#jobs'
+  },
+  
+  // Migration
+  {
+    id: 'migration-react-to-vue',
+    title: 'React to Vue Migration',
+    description: 'Step-by-step guide for migrating from React',
+    framework: 'vue',
+    category: 'Migration',
+    icon: '🔄',
+    path: '/migration'
+  },
+  {
+    id: 'migration-vue-to-react',
+    title: 'Vue to React Migration',
+    description: 'Guide for transitioning from Vue to React',
+    framework: 'react',
+    category: 'Migration',
+    icon: '🔄',
+    path: '/migration'
+  },
+  {
+    id: 'migration-concepts',
+    title: 'Concept Mapping',
+    description: 'How React and Vue concepts translate',
+    framework: 'both',
+    category: 'Migration',
+    icon: '🗺️',
+    path: '/migration'
+  },
+  {
+    id: 'migration-tools',
+    title: 'Migration Tools',
+    description: 'Automated tools and resources for migration',
+    framework: 'both',
+    category: 'Migration',
+    icon: '🛠️',
+    path: '/migration'
   }
 ]
 
@@ -329,7 +367,8 @@ const quickLinks = [
   { name: 'Try Playground', path: '/playground' },
   { name: 'Interactive Learn', path: '/learn' },
   { name: 'Decision Helper', path: '/decision-helper' },
-  { name: 'Community Resources', path: '/community' }
+  { name: 'Community Resources', path: '/community' },
+  { name: 'Migration Guide', path: '/migration' }
 ]
 
 // Computed
