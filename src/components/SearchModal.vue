@@ -274,6 +274,53 @@ const searchableContent = [
     category: 'Ecosystem',
     icon: '🖥️',
     path: '/compare#ssr'
+  },
+  
+  // Community
+  {
+    id: 'community-react',
+    title: 'React Community Resources',
+    description: 'Official docs, forums, and community projects',
+    framework: 'react',
+    category: 'Community',
+    icon: '👥',
+    path: '/community#react'
+  },
+  {
+    id: 'community-vue',
+    title: 'Vue Community Resources',
+    description: 'Official resources, forums, and ecosystem',
+    framework: 'vue',
+    category: 'Community',
+    icon: '👥',
+    path: '/community#vue'
+  },
+  {
+    id: 'community-conferences',
+    title: 'Conferences & Events',
+    description: 'React Conf, Vue.js Live, and community meetups',
+    framework: 'both',
+    category: 'Community',
+    icon: '🎪',
+    path: '/community#events'
+  },
+  {
+    id: 'community-learning',
+    title: 'Learning Resources',
+    description: 'Tutorials, courses, and documentation',
+    framework: 'both',
+    category: 'Community',
+    icon: '📖',
+    path: '/community#learning'
+  },
+  {
+    id: 'community-jobs',
+    title: 'Jobs & Career',
+    description: 'React and Vue job market insights',
+    framework: 'both',
+    category: 'Community',
+    icon: '💼',
+    path: '/community#jobs'
   }
 ]
 
@@ -281,7 +328,8 @@ const quickLinks = [
   { name: 'Compare Frameworks', path: '/compare' },
   { name: 'Try Playground', path: '/playground' },
   { name: 'Interactive Learn', path: '/learn' },
-  { name: 'Decision Helper', path: '/decision-helper' }
+  { name: 'Decision Helper', path: '/decision-helper' },
+  { name: 'Community Resources', path: '/community' }
 ]
 
 // Computed

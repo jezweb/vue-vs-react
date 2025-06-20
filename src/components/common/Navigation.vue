@@ -62,6 +62,14 @@
             Decision Helper
             <span v-if="$route.path === '/decision-helper'" class="absolute -bottom-6 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"></span>
           </router-link>
+          <router-link
+            to="/community"
+            class="relative text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+            :class="{ 'text-blue-600 dark:text-blue-400': $route.path === '/community' }"
+          >
+            Community
+            <span v-if="$route.path === '/community'" class="absolute -bottom-6 left-0 right-0 h-0.5 bg-blue-600 dark:bg-blue-400"></span>
+          </router-link>
           
           <!-- Search Button -->
           <button
@@ -151,6 +159,13 @@
           @click="mobileMenuOpen = false"
         >
           Decision Helper
+        </router-link>
+        <router-link
+          to="/community"
+          class="block py-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+          @click="mobileMenuOpen = false"
+        >
+          Community
         </router-link>
       </div>
     </transition>

@@ -37,6 +37,12 @@ const routes = [
     name: 'Comparison',
     component: () => import('../views/Comparison.vue'),
     meta: { title: 'Detailed Comparison' }
+  },
+  {
+    path: '/community',
+    name: 'Community',
+    component: () => import('../views/Community.vue'),
+    meta: { title: 'Community Resources - Vue vs React' }
   }
 ]
 
