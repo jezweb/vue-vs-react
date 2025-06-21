@@ -141,13 +141,14 @@
                   </button>
                 </div>
                 
-                <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
+                <div class="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden" style="height: 320px;">
                   <vue-monaco-editor
                     v-model:value="lessonCode"
                     :options="editorOptions"
                     language="javascript"
                     theme="vs-dark"
-                    class="h-64"
+                    style="height: 100%;"
+                    @mount="handleEditorMount"
                   />
                 </div>
               </div>
@@ -162,7 +163,8 @@
                     v-if="!outputError"
                     ref="outputFrame"
                     :srcdoc="outputHtml"
-                    class="w-full h-64 bg-white rounded"
+                    class="w-full bg-white rounded"
+                    style="height: 320px;"
                     sandbox="allow-scripts"
                   ></iframe>
                   <div v-else class="text-red-500">
@@ -249,6 +251,7 @@ const lessonCode = ref('')
 const showOutput = ref(false)
 const outputHtml = ref('')
 const outputError = ref('')
+const lessonEditor = ref(null)
 
 const editorOptions = {
   automaticLayout: true,
@@ -618,6 +621,14 @@ if (!selectedLesson.value && currentLessons.value.length > 0) {
   selectedLesson.value = currentLessons.value[0].id
 }
 
+const handleEditorMount = (editor) => {
+  lessonEditor.value = editor
+  // Force layout after a brief delay to ensure proper rendering
+  setTimeout(() => {
+    editor.layout()
+  }, 100)
+}
+
 const runLessonCode = () => {
   outputError.value = ''
   showOutput.value = true
@@ -630,6 +641,7 @@ const runLessonCode = () => {
     }
   } catch (err) {
     outputError.value = err.message
+    console.error('Code execution error:', err)
   }
 }
 
@@ -681,6 +693,8 @@ const generateVueOutput = (code) => {
   const template = templateMatch ? templateMatch[1].trim() : ''
   const script = scriptMatch ? scriptMatch[1].trim() : ''
   
+  console.log('Vue code parsing:', { templateMatch, scriptMatch, template, script })
+  
   return `<!DOCTYPE html>
 ${'<'}html${'>'}
 ${'<'}head${'>'}
@@ -697,10 +711,14 @@ ${'<'}body${'>'}
   ${'<'}script${'>'}
     const { createApp, ref, reactive, computed, watch, watchEffect, onMounted, onUnmounted } = Vue;
     
+    console.log('Parsed template:', \`${template}\`);
+    console.log('Parsed script:', \`${script}\`);
+    
     try {
       createApp({
         template: \`${template}\`,
         setup() {
+          console.log('Vue setup() running...');
           ${script}
           
           // Auto-export all variables and functions
@@ -715,6 +733,8 @@ ${'<'}body${'>'}
               const funcName = match.replace('function ', '').replace(/\s+/g, '');
               return `if (typeof ${funcName} !== 'undefined') exports.${funcName} = ${funcName};`;
             }).join('\n') || ''}
+            
+            console.log('Vue exports:', exports);
           } catch (e) {
             console.error('Export error:', e);
           }
@@ -722,6 +742,7 @@ ${'<'}body${'>'}
           return exports;
         }
       }).mount('#app')
+      console.log('Vue app mounted successfully');
     } catch (error) {
       console.error('Vue mount error:', error);
       document.getElementById('app').innerHTML = '${'<'}div style="color: red; padding: 20px;"${'>'}Error: ' + error.message + '${'<'}\/div${'>'};
@@ -773,5 +794,20 @@ const previousLesson = () => {
 
 .vue-monaco-editor {
   height: 100% !important;
+  width: 100% !important;
+}
+
+/* Ensure Monaco editor renders properly */
+:deep(.monaco-editor) {
+  height: 100% !important;
+}
+
+:deep(.monaco-editor .overflow-guard) {
+  height: 100% !important;
+}
+
+/* Better styling for the code section */
+.border {
+  min-height: 0;
 }
 </style>
