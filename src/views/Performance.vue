@@ -321,8 +321,31 @@ const benchmarkResults = ref(null)
 const reactDemo = ref(null)
 const vueDemo = ref(null)
 
+// Track running animations and timers for cleanup
+const runningAnimations = ref([])
+const runningTimers = ref([])
+const runningIntervals = ref([])
+
+// Helper function to clean up running animations and timers
+const cleanupRunningTests = () => {
+  // Cancel running animation frames
+  runningAnimations.value.forEach(id => cancelAnimationFrame(id))
+  runningAnimations.value = []
+  
+  // Clear running timers
+  runningTimers.value.forEach(id => clearTimeout(id))
+  runningTimers.value = []
+  
+  // Clear running intervals
+  runningIntervals.value.forEach(id => clearInterval(id))
+  runningIntervals.value = []
+}
+
 // Simulated benchmark functions
 const runBenchmark = async () => {
+  // Clean up any previous tests
+  cleanupRunningTests()
+  
   isRunning.value = true
   benchmarkResults.value = null
   
@@ -330,13 +353,14 @@ const runBenchmark = async () => {
   if (reactDemo.value) reactDemo.value.innerHTML = ''
   if (vueDemo.value) vueDemo.value.innerHTML = ''
   
-  // Simulate benchmark based on selected test
-  await new Promise(resolve => setTimeout(resolve, 500))
-  
   let results = {
     react: { renderTime: 0, updatesPerSec: 0, memoryDelta: 0 },
     vue: { renderTime: 0, updatesPerSec: 0, memoryDelta: 0 }
   }
+  
+  try {
+    // Simulate benchmark based on selected test
+    await new Promise(resolve => setTimeout(resolve, 500))
   
   switch (selectedTest.value) {
     case 'list':
@@ -417,25 +441,35 @@ const runBenchmark = async () => {
   }
   
   // Format results
-  results.react.renderTime = results.react.renderTime.toFixed(2)
-  results.react.memoryDelta = results.react.memoryDelta.toFixed(1)
-  results.vue.renderTime = results.vue.renderTime.toFixed(2)
-  results.vue.memoryDelta = results.vue.memoryDelta.toFixed(1)
-  
-  // Determine winner
-  const reactScore = parseFloat(results.react.renderTime)
-  const vueScore = parseFloat(results.vue.renderTime)
-  
-  if (reactScore < vueScore) {
-    results.winner = 'react'
-    results.winnerMargin = (((vueScore - reactScore) / vueScore) * 100).toFixed(1)
-  } else {
-    results.winner = 'vue'
-    results.winnerMargin = (((reactScore - vueScore) / reactScore) * 100).toFixed(1)
+  if (results.react && results.vue) {
+    results.react.renderTime = results.react.renderTime.toFixed(2)
+    results.react.memoryDelta = results.react.memoryDelta.toFixed(1)
+    results.vue.renderTime = results.vue.renderTime.toFixed(2)
+    results.vue.memoryDelta = results.vue.memoryDelta.toFixed(1)
+    
+    // Determine winner
+    const reactScore = parseFloat(results.react.renderTime)
+    const vueScore = parseFloat(results.vue.renderTime)
+    
+    if (reactScore < vueScore) {
+      results.winner = 'react'
+      results.winnerMargin = (((vueScore - reactScore) / vueScore) * 100).toFixed(1)
+    } else {
+      results.winner = 'vue'
+      results.winnerMargin = (((reactScore - vueScore) / reactScore) * 100).toFixed(1)
+    }
+    
+    benchmarkResults.value = results
   }
   
-  benchmarkResults.value = results
-  isRunning.value = false
+  } catch (error) {
+    console.error('Benchmark error:', error)
+    benchmarkResults.value = null
+  } finally {
+    // Always ensure isRunning is set to false
+    isRunning.value = false
+    cleanupRunningTests()
+  }
 }
 
 const renderList = () => {
@@ -480,8 +514,12 @@ const simulateUpdates = () => {
     
     if (counter >= 100) {
       clearInterval(interval)
+      runningIntervals.value = runningIntervals.value.filter(id => id !== interval)
     }
   }, 10)
+  
+  // Track the interval for cleanup
+  runningIntervals.value.push(interval)
 }
 
 const renderComponentTree = () => {
@@ -505,7 +543,14 @@ const renderComponentTree = () => {
 }
 
 const resetBenchmark = () => {
+  // Clean up any running tests
+  cleanupRunningTests()
+  
+  // Reset state
+  isRunning.value = false
   benchmarkResults.value = null
+  
+  // Clear demo areas
   if (reactDemo.value) reactDemo.value.innerHTML = ''
   if (vueDemo.value) vueDemo.value.innerHTML = ''
 }
@@ -671,7 +716,8 @@ const runFpsTest = async () => {
       `
     }
     if (performance.now() - startTime < animationDuration / 2) {
-      requestAnimationFrame(reactAnimation)
+      const frameId = requestAnimationFrame(reactAnimation)
+      runningAnimations.value.push(frameId)
     }
   }
   
@@ -692,16 +738,26 @@ const runFpsTest = async () => {
       `
     }
     if (performance.now() - startTime < animationDuration) {
-      requestAnimationFrame(vueAnimation)
+      const frameId = requestAnimationFrame(vueAnimation)
+      runningAnimations.value.push(frameId)
     }
   }
   
   // Start animations
-  requestAnimationFrame(reactAnimation)
-  setTimeout(() => requestAnimationFrame(vueAnimation), animationDuration / 2)
+  const reactFrameId = requestAnimationFrame(reactAnimation)
+  runningAnimations.value.push(reactFrameId)
+  
+  const vueTimer = setTimeout(() => {
+    const vueFrameId = requestAnimationFrame(vueAnimation)
+    runningAnimations.value.push(vueFrameId)
+  }, animationDuration / 2)
+  runningTimers.value.push(vueTimer)
   
   // Wait for animations to complete
-  await new Promise(resolve => setTimeout(resolve, animationDuration))
+  await new Promise(resolve => {
+    const mainTimer = setTimeout(resolve, animationDuration)
+    runningTimers.value.push(mainTimer)
+  })
   
   // Calculate FPS
   const reactFps = Math.floor(reactFrames / (animationDuration / 2000))
@@ -728,12 +784,18 @@ const runStartupTest = async () => {
   
   // Simulate React startup (typically slower due to larger bundle)
   const reactStart = performance.now()
-  await new Promise(resolve => setTimeout(resolve, 50 + Math.random() * 30)) // Simulate loading
+  await new Promise(resolve => {
+    const timer = setTimeout(resolve, 50 + Math.random() * 30) // Simulate loading
+    runningTimers.value.push(timer)
+  })
   results.react.renderTime = performance.now() - reactStart
   
   // Simulate Vue startup (typically faster)
   const vueStart = performance.now()
-  await new Promise(resolve => setTimeout(resolve, 35 + Math.random() * 20)) // Simulate loading
+  await new Promise(resolve => {
+    const timer = setTimeout(resolve, 35 + Math.random() * 20) // Simulate loading
+    runningTimers.value.push(timer)
+  })
   results.vue.renderTime = performance.now() - vueStart
   
   // Display startup visualizations
