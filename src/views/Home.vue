@@ -61,10 +61,10 @@
         >
           <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">React</h2>
           <ul class="space-y-2 text-gray-600 dark:text-gray-400">
-            <li v-motion :initial="{ opacity: 0, x: -20 }" :visible="{ opacity: 1, x: 0, transition: { delay: 100 } }">▦ Bundle Size: ~45KB (gzipped)</li>
+            <li v-motion :initial="{ opacity: 0, x: -20 }" :visible="{ opacity: 1, x: 0, transition: { delay: 100 } }">▦ Bundle Size: ~{{ FRAMEWORK_METRICS.react.bundleSize }} (gzipped)</li>
             <li v-motion :initial="{ opacity: 0, x: -20 }" :visible="{ opacity: 1, x: 0, transition: { delay: 150 } }">▦ Created by: Meta (Facebook)</li>
             <li v-motion :initial="{ opacity: 0, x: -20 }" :visible="{ opacity: 1, x: 0, transition: { delay: 200 } }">▦ Released: 2013</li>
-            <li v-motion :initial="{ opacity: 0, x: -20 }" :visible="{ opacity: 1, x: 0, transition: { delay: 250 } }">▦ GitHub Stars: 200k+</li>
+            <li v-motion :initial="{ opacity: 0, x: -20 }" :visible="{ opacity: 1, x: 0, transition: { delay: 250 } }">▦ GitHub Stars: {{ FRAMEWORK_METRICS.react.githubStars }}</li>
             <li v-motion :initial="{ opacity: 0, x: -20 }" :visible="{ opacity: 1, x: 0, transition: { delay: 300 } }">▦ Type: UI Library</li>
           </ul>
         </div>
@@ -77,10 +77,10 @@
         >
           <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Vue</h2>
           <ul class="space-y-2 text-gray-600 dark:text-gray-400">
-            <li v-motion :initial="{ opacity: 0, x: 20 }" :visible="{ opacity: 1, x: 0, transition: { delay: 100 } }">▦ Bundle Size: ~34KB (gzipped)</li>
+            <li v-motion :initial="{ opacity: 0, x: 20 }" :visible="{ opacity: 1, x: 0, transition: { delay: 100 } }">▦ Bundle Size: ~{{ FRAMEWORK_METRICS.vue.bundleSize }} (gzipped)</li>
             <li v-motion :initial="{ opacity: 0, x: 20 }" :visible="{ opacity: 1, x: 0, transition: { delay: 150 } }">▦ Created by: Evan You</li>
             <li v-motion :initial="{ opacity: 0, x: 20 }" :visible="{ opacity: 1, x: 0, transition: { delay: 200 } }">▦ Released: 2014</li>
-            <li v-motion :initial="{ opacity: 0, x: 20 }" :visible="{ opacity: 1, x: 0, transition: { delay: 250 } }">▦ GitHub Stars: 200k+</li>
+            <li v-motion :initial="{ opacity: 0, x: 20 }" :visible="{ opacity: 1, x: 0, transition: { delay: 250 } }">▦ GitHub Stars: {{ FRAMEWORK_METRICS.vue.githubStars }}</li>
             <li v-motion :initial="{ opacity: 0, x: 20 }" :visible="{ opacity: 1, x: 0, transition: { delay: 300 } }">▦ Type: Progressive Framework</li>
           </ul>
         </div>
@@ -232,5 +232,5 @@
 </template>
 
 <script setup>
-// Home page component with animations
+import { FRAMEWORK_METRICS, ANIMATION_DELAYS } from '../config/constants'
 </script>

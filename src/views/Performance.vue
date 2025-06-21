@@ -26,18 +26,18 @@
               <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Bundle Size</h3>
               <div class="flex items-center space-x-2">
                 <div class="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-4">
-                  <div class="bg-react-blue h-4 rounded-full" style="width: 42%"></div>
+                  <div class="bg-react-blue h-4 rounded-full" :style="{ width: `${(FRAMEWORK_METRICS.react.bundleSizeRaw / 100) * 100}%` }"></div>
                 </div>
-                <span class="text-sm text-gray-600 dark:text-gray-400">42KB (gzipped)</span>
+                <span class="text-sm text-gray-600 dark:text-gray-400">{{ FRAMEWORK_METRICS.react.bundleSize }} (gzipped)</span>
               </div>
             </div>
             <div>
               <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Startup Time</h3>
-              <p class="text-gray-600 dark:text-gray-400">~16ms initial render</p>
+              <p class="text-gray-600 dark:text-gray-400">~{{ FRAMEWORK_METRICS.react.initialRenderTime }}ms initial render</p>
             </div>
             <div>
               <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Memory Usage</h3>
-              <p class="text-gray-600 dark:text-gray-400">Moderate - Fiber architecture optimizes memory</p>
+              <p class="text-gray-600 dark:text-gray-400">{{ FRAMEWORK_METRICS.react.memoryUsage }} - Fiber architecture optimizes memory</p>
             </div>
           </div>
         </div>
@@ -52,18 +52,18 @@
               <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Bundle Size</h3>
               <div class="flex items-center space-x-2">
                 <div class="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-4">
-                  <div class="bg-vue-green h-4 rounded-full" style="width: 34%"></div>
+                  <div class="bg-vue-green h-4 rounded-full" :style="{ width: `${(FRAMEWORK_METRICS.vue.bundleSizeRaw / 100) * 100}%` }"></div>
                 </div>
-                <span class="text-sm text-gray-600 dark:text-gray-400">34KB (gzipped)</span>
+                <span class="text-sm text-gray-600 dark:text-gray-400">{{ FRAMEWORK_METRICS.vue.bundleSize }} (gzipped)</span>
               </div>
             </div>
             <div>
               <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Startup Time</h3>
-              <p class="text-gray-600 dark:text-gray-400">~13ms initial render</p>
+              <p class="text-gray-600 dark:text-gray-400">~{{ FRAMEWORK_METRICS.vue.initialRenderTime }}ms initial render</p>
             </div>
             <div>
               <h3 class="font-semibold text-gray-800 dark:text-gray-200 mb-2">Memory Usage</h3>
-              <p class="text-gray-600 dark:text-gray-400">Low - Proxy-based reactivity is efficient</p>
+              <p class="text-gray-600 dark:text-gray-400">{{ FRAMEWORK_METRICS.vue.memoryUsage }} - Proxy-based reactivity is efficient</p>
             </div>
           </div>
         </div>
@@ -314,6 +314,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import BenchmarkChart from '../components/examples/BenchmarkChart.vue'
 import performanceBenchmarks from '../data/examples/performance-benchmarks.json'
+import { FRAMEWORK_METRICS, PERFORMANCE_TEST_CONFIG } from '../config/constants'
 
 const selectedTest = ref('list')
 const isRunning = ref(false)
@@ -463,7 +464,6 @@ const runBenchmark = async () => {
   }
   
   } catch (error) {
-    console.error('Benchmark error:', error)
     benchmarkResults.value = null
   } finally {
     // Always ensure isRunning is set to false
@@ -557,7 +557,6 @@ const resetBenchmark = () => {
 
 // New performance test implementations
 const runRealDomTest = async () => {
-  console.log('Running Real DOM Manipulation Test...')
   
   // Real DOM performance test
   const testSize = 5000
@@ -608,7 +607,6 @@ const runRealDomTest = async () => {
 }
 
 const runMemoryTest = async () => {
-  console.log('Running Memory Usage Test...')
   
   const results = {
     react: { renderTime: 0, updatesPerSec: 0, memoryDelta: 0 },
@@ -685,7 +683,6 @@ const runMemoryTest = async () => {
 }
 
 const runFpsTest = async () => {
-  console.log('Running FPS Performance Test...')
   
   const results = {
     react: { renderTime: 0, updatesPerSec: 0, memoryDelta: 0 },
@@ -774,7 +771,6 @@ const runFpsTest = async () => {
 }
 
 const runStartupTest = async () => {
-  console.log('Running Framework Startup Test...')
   
   // Simulate framework initialization time
   const results = {
@@ -832,7 +828,6 @@ const runStartupTest = async () => {
 }
 
 const runBundleTest = async () => {
-  console.log('Running Bundle Size Analysis...')
   
   // Simulate bundle analysis
   const results = {

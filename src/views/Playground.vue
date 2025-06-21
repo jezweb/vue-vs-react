@@ -116,7 +116,7 @@
               ref="reactFrame"
               :srcdoc="reactOutput"
               class="w-full h-full bg-white"
-              sandbox="allow-scripts"
+              sandbox="allow-scripts allow-same-origin"
               style="height: calc(300px - 52px);"
             ></iframe>
             <!-- Vue Output -->
@@ -125,7 +125,7 @@
               ref="vueFrame"
               :srcdoc="vueOutput"
               class="w-full h-full bg-white"
-              sandbox="allow-scripts"
+              sandbox="allow-scripts allow-same-origin"
               style="height: calc(300px - 52px);"
             ></iframe>
           </div>
@@ -707,7 +707,6 @@ onMounted(() => {
       if (state.vue) vueCode.value = state.vue
       if (state.example) selectedExample.value = state.example
     } catch (err) {
-      console.error('Failed to load shared code:', err)
     }
   }
 

@@ -191,7 +191,6 @@ onMounted(async () => {
     reactCompanies.value = reactData.default.companies
     vueCompanies.value = vueData.default.companies
   } catch (error) {
-    console.error('Error loading case studies:', error)
   }
 })
 

@@ -161,7 +161,6 @@ function UserProfile({ userId }) {
     
     return () => {
       // Cleanup on unmount
-      console.log('Cleaning up...');
     };
   }, [userId]);
   
@@ -186,7 +185,6 @@ watch(() => props.userId, (newId) => {
 })
 
 onUnmounted(() => {
-  console.log('Cleaning up...')
 })
 <\/script>`,
     explanation: "React consolidates lifecycle logic into useEffect with dependencies, while Vue provides separate lifecycle hooks. React's approach is more unified but Vue's explicit hooks can be clearer for specific lifecycle needs."
@@ -195,11 +193,9 @@ onUnmounted(() => {
     react: `function Form() {
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('Form submitted');
   };
   
   const handleInput = (e) => {
-    console.log('Input:', e.target.value);
   };
   
   return (
@@ -218,11 +214,9 @@ onUnmounted(() => {
 
 <script setup>
 const handleSubmit = () => {
-  console.log('Form submitted')
 }
 
 const handleInput = (event) => {
-  console.log('Input:', event.target.value)
 }
 <\/script>`,
     explanation: "Vue provides event modifiers like .prevent for common patterns, making event handling more declarative. React requires manual event handling but offers more flexibility in complex scenarios."

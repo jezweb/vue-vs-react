@@ -165,7 +165,7 @@
                     :srcdoc="outputHtml"
                     class="w-full bg-white rounded"
                     style="height: 320px;"
-                    sandbox="allow-scripts"
+                    sandbox="allow-scripts allow-same-origin"
                   ></iframe>
                   <div v-else class="text-red-500">
                     Error: {{ outputError }}
@@ -641,7 +641,6 @@ const runLessonCode = () => {
     }
   } catch (err) {
     outputError.value = err.message
-    console.error('Code execution error:', err)
   }
 }
 
@@ -693,7 +692,6 @@ const generateVueOutput = (code) => {
   const template = templateMatch ? templateMatch[1].trim() : ''
   const script = scriptMatch ? scriptMatch[1].trim() : ''
   
-  console.log('Vue code parsing:', { templateMatch, scriptMatch, template, script })
   
   return `<!DOCTYPE html>
 ${'<'}html${'>'}
@@ -711,14 +709,11 @@ ${'<'}body${'>'}
   ${'<'}script${'>'}
     const { createApp, ref, reactive, computed, watch, watchEffect, onMounted, onUnmounted } = Vue;
     
-    console.log('Parsed template:', \`${template}\`);
-    console.log('Parsed script:', \`${script}\`);
     
     try {
       createApp({
         template: \`${template}\`,
         setup() {
-          console.log('Vue setup() running...');
           ${script}
           
           // Auto-export all variables and functions
@@ -734,17 +729,13 @@ ${'<'}body${'>'}
               return `if (typeof ${funcName} !== 'undefined') exports.${funcName} = ${funcName};`;
             }).join('\n') || ''}
             
-            console.log('Vue exports:', exports);
           } catch (e) {
-            console.error('Export error:', e);
           }
           
           return exports;
         }
       }).mount('#app')
-      console.log('Vue app mounted successfully');
     } catch (error) {
-      console.error('Vue mount error:', error);
       document.getElementById('app').innerHTML = '${'<'}div style="color: red; padding: 20px;"${'>'}Error: ' + error.message + '${'<'}\/div${'>'};
     }
   ${'<'}\/script${'>'}

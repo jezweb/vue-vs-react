@@ -47,10 +47,33 @@
 
     <!-- Examples List -->
     <div class="max-w-7xl mx-auto px-4 pb-8">
-      <div v-if="filteredExamples.length === 0" class="text-center py-12">
+      <!-- Loading State -->
+      <div v-if="isLoading" class="flex items-center justify-center py-12">
+        <div class="text-center">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p class="text-gray-600 dark:text-gray-400">Loading examples...</p>
+        </div>
+      </div>
+      
+      <!-- Error State -->
+      <div v-else-if="loadError" class="text-center py-12">
+        <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-6 max-w-md mx-auto">
+          <p class="text-red-700 dark:text-red-400 mb-4">{{ loadError }}</p>
+          <button
+            @click="() => window.location.reload()"
+            class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+          >
+            Refresh Page
+          </button>
+        </div>
+      </div>
+      
+      <!-- Empty State -->
+      <div v-else-if="filteredExamples.length === 0" class="text-center py-12">
         <p class="text-gray-500 dark:text-gray-400">No examples found matching your criteria.</p>
       </div>
       
+      <!-- Examples -->
       <div v-else class="space-y-8">
         <ExampleShowcase
           v-for="example in filteredExamples"
@@ -132,10 +155,15 @@ const searchQuery = ref('')
 const examples = ref([])
 const benchmarks = ref({})
 const performanceTips = ref({ react: [], vue: [] })
+const isLoading = ref(true)
+const loadError = ref(null)
 
 // Load data
 onMounted(async () => {
   try {
+    isLoading.value = true
+    loadError.value = null
+    
     // Load example patterns
     const [ecommerce, dashboard] = await Promise.all([
       import('../data/examples/ecommerce-patterns.json'),
@@ -152,7 +180,9 @@ onMounted(async () => {
     benchmarks.value = performanceData.default.benchmarks
     performanceTips.value = performanceData.default.optimizationTips
   } catch (error) {
-    console.error('Error loading example data:', error)
+    loadError.value = 'Failed to load examples. Please refresh the page.'
+  } finally {
+    isLoading.value = false
   }
 })
 
