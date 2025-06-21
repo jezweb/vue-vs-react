@@ -127,17 +127,20 @@
                 <div v-html="currentLessonData.content"></div>
               </div>
 
-              <!-- Code Editor -->
+              <!-- Code Example -->
               <div class="mb-6">
                 <div class="flex justify-between items-center mb-4">
                   <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
-                    Try it yourself:
+                    Example Code:
                   </h3>
                   <button
-                    @click="runLessonCode"
-                    class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+                    @click="copyCode"
+                    class="px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700 transition-colors flex items-center gap-2"
                   >
-                    Run Code
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
+                    </svg>
+                    {{ copyButtonText }}
                   </button>
                 </div>
                 
@@ -153,23 +156,13 @@
                 </div>
               </div>
 
-              <!-- Output -->
-              <div v-if="showOutput" class="mb-6">
+              <!-- What This Code Does -->
+              <div v-if="currentLessonData.explanation" class="mb-6">
                 <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
-                  Output:
+                  What This Code Does:
                 </h3>
-                <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-gray-50 dark:bg-gray-900">
-                  <iframe
-                    v-if="!outputError"
-                    ref="outputFrame"
-                    :srcdoc="outputHtml"
-                    class="w-full bg-white rounded"
-                    style="height: 320px;"
-                    sandbox="allow-scripts"
-                  ></iframe>
-                  <div v-else class="text-red-500">
-                    Error: {{ outputError }}
-                  </div>
+                <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                  <p class="text-gray-700 dark:text-gray-300">{{ currentLessonData.explanation }}</p>
                 </div>
               </div>
 
@@ -248,10 +241,8 @@ const selectedFramework = ref('react')
 const selectedLesson = ref('')
 const completedLessons = ref([])
 const lessonCode = ref('')
-const showOutput = ref(false)
-const outputHtml = ref('')
-const outputError = ref('')
 const lessonEditor = ref(null)
+const copyButtonText = ref('Copy Code')
 
 const editorOptions = {
   automaticLayout: true,
@@ -289,7 +280,8 @@ const reactLessons = [
 }
 
 // Try changing the text above!`,
-    challenge: 'Modify the component to display your name instead of "World"'
+    challenge: 'Modify the component to display your name instead of "World"',
+    explanation: 'This creates a simple React component that displays "Hello, World!" using JSX syntax. The component is a function that returns JSX elements, which React will render to the DOM.'
   },
   {
     id: 'react-state',
@@ -321,7 +313,8 @@ const reactLessons = [
     </div>
   );
 }`,
-    challenge: 'Add a "Reset" button that sets the count back to 0'
+    challenge: 'Add a "Reset" button that sets the count back to 0',
+    explanation: 'This demonstrates React\'s useState hook for managing component state. The count variable holds the current value, and setCount updates it. When state changes, React automatically re-renders the component.'
   },
   {
     id: 'react-effects',
@@ -356,7 +349,8 @@ const reactLessons = [
     </div>
   );
 }`,
-    challenge: 'Add pause and resume buttons to control the timer'
+    challenge: 'Add pause and resume buttons to control the timer',
+    explanation: 'useEffect runs side effects in components. This timer increments every second using setInterval. The cleanup function (return statement) prevents memory leaks by clearing the interval when the component unmounts.'
   },
   {
     id: 'react-lists',
@@ -408,7 +402,8 @@ const reactLessons = [
     </div>
   );
 }`,
-    challenge: 'Add functionality to add new todos to the list'
+    challenge: 'Add functionality to add new todos to the list',
+    explanation: 'This shows how to render lists in React using the map() function. Each todo item has a unique key prop, which helps React efficiently update the list when items change.'
   }
 ]
 
@@ -442,7 +437,8 @@ const name = ref('World')
 
 // Try changing the name value!
 ${'<'}/script>`,
-    challenge: 'Add an input field to change the name dynamically'
+    challenge: 'Add an input field to change the name dynamically',
+    explanation: 'This creates a simple Vue component using template syntax and the Composition API. The ref() function creates reactive data that automatically updates the UI when changed.'
   },
   {
     id: 'vue-reactivity',
@@ -478,7 +474,8 @@ import { ref, computed } from 'vue'
 const count = ref(0)
 const doubleCount = computed(() => count.value * 2)
 ${'<'}/script>`,
-    challenge: 'Add a computed property that shows if the number is even or odd'
+    challenge: 'Add a computed property that shows if the number is even or odd',
+    explanation: 'Vue\'s reactivity system automatically tracks dependencies. When you change count, both the template and computed properties update automatically. This is more automatic than React\'s setState.'
   },
   {
     id: 'vue-lifecycle',
@@ -525,7 +522,8 @@ watch(seconds, (newVal) => {
   }
 })
 ${'<'}/script>`,
-    challenge: 'Add buttons to pause and reset the timer'
+    challenge: 'Add buttons to pause and reset the timer',
+    explanation: 'Vue\'s lifecycle hooks (onMounted, onUnmounted) and watchers let you respond to component lifecycle events and data changes. The timer starts when the component mounts and cleans up when it unmounts.'
   },
   {
     id: 'vue-lists',
@@ -576,7 +574,8 @@ const toggleTodo = (id) => {
   }
 }
 ${'<'}/script>`,
-    challenge: 'Add v-model binding to add new todos with an input field'
+    challenge: 'Add v-model binding to add new todos with an input field',
+    explanation: 'Vue\'s v-for directive renders lists with less boilerplate than React. The @click directive handles events, and Vue\'s reactivity means you can directly modify array items without immutability concerns.'
   }
 ]
 
@@ -606,8 +605,7 @@ const hasNextLesson = computed(() => currentLessonIndex.value < currentLessons.v
 watch(selectedLesson, () => {
   if (currentLessonData.value) {
     lessonCode.value = currentLessonData.value.code
-    showOutput.value = false
-    outputError.value = ''
+    copyButtonText.value = 'Copy Code'
   }
 })
 
@@ -629,123 +627,28 @@ const handleEditorMount = (editor) => {
   }, 100)
 }
 
-const runLessonCode = () => {
-  outputError.value = ''
-  showOutput.value = true
-  
+const copyCode = async () => {
   try {
-    if (selectedFramework.value === 'react') {
-      outputHtml.value = generateReactOutput(lessonCode.value)
-    } else {
-      outputHtml.value = generateVueOutput(lessonCode.value)
-    }
+    await navigator.clipboard.writeText(lessonCode.value)
+    copyButtonText.value = 'Copied!'
+    setTimeout(() => {
+      copyButtonText.value = 'Copy Code'
+    }, 2000)
   } catch (err) {
-    outputError.value = err.message
+    // Fallback for older browsers
+    const textArea = document.createElement('textarea')
+    textArea.value = lessonCode.value
+    document.body.appendChild(textArea)
+    textArea.select()
+    document.execCommand('copy')
+    document.body.removeChild(textArea)
+    copyButtonText.value = 'Copied!'
+    setTimeout(() => {
+      copyButtonText.value = 'Copy Code'
+    }, 2000)
   }
 }
 
-const generateReactOutput = (code) => {
-  return `<!DOCTYPE html>
-${'<'}html${'>'}
-${'<'}head${'>'}
-  ${'<'}script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"${'><'}\/script${'>'}
-  ${'<'}script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"${'><'}\/script${'>'}
-  ${'<'}script src="https://unpkg.com/@babel/standalone/babel.min.js"${'><'}\/script${'>'}
-  ${'<'}style${'>'}
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    button { padding: 8px 16px; margin: 4px; cursor: pointer; }
-    ul { list-style: none; padding: 0; }
-    li { padding: 8px; margin: 4px 0; background: #f0f0f0; }
-  ${'<'}\/style${'>'}
-${'<'}\/head${'>'}
-${'<'}body${'>'}
-  ${'<'}div id="root"${'><'}\/div${'>'}
-  ${'<'}script type="text/babel"${'>'}
-    const { useState, useEffect } = React;
-    ${code}
-    
-    // Try to find any component function defined in the code
-    let App;
-    try {
-      App = HelloWorld || Counter || Timer || TodoList || UserList || (() => ${'<'}div${'>'}No component found${'<'}\/div${'>'}); 
-    } catch (e) {
-      // If component variables don't exist, try to find the last function
-      const functionNames = code.match(/function\\s+(\\w+)/g);
-      if (functionNames && functionNames.length > 0) {
-        const lastFunction = functionNames[functionNames.length - 1].replace('function ', '');
-        App = eval(lastFunction);
-      } else {
-        App = () => ${'<'}div${'>'}No component found${'<'}\/div${'>'}; 
-      }
-    }
-    
-    ReactDOM.createRoot(document.getElementById('root')).render(${'<'}App \/${'>'});
-  ${'<'}\/script${'>'}
-${'<'}\/body${'>'}
-${'<'}\/html${'>'}`
-}
-
-const generateVueOutput = (code) => {
-  const templateMatch = code.match(/<template>([\s\S]*?)<\/template>/)
-  const scriptMatch = code.match(/<script setup>([\s\S]*?)<\/script>/)
-  
-  const template = templateMatch ? templateMatch[1].trim() : ''
-  let script = scriptMatch ? scriptMatch[1].trim() : ''
-  
-  // Remove import statements from the script
-  script = script.replace(/import\s+\{[^}]+\}\s+from\s+['"][^'"]+['"]/g, '')
-  script = script.trim()
-  
-  
-  return `<!DOCTYPE html>
-${'<'}html${'>'}
-${'<'}head${'>'}
-  ${'<'}script src="https://unpkg.com/vue@3/dist/vue.global.js"${'><'}\/script${'>'}
-  ${'<'}style${'>'}
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    button { padding: 8px 16px; margin: 4px; cursor: pointer; }
-    ul { list-style: none; padding: 0; }
-    li { padding: 8px; margin: 4px 0; background: #f0f0f0; }
-  ${'<'}\/style${'>'}
-${'<'}\/head${'>'}
-${'<'}body${'>'}
-  ${'<'}div id="app"${'><'}\/div${'>'}
-  ${'<'}script${'>'}
-    const { createApp, ref, reactive, computed, watch, watchEffect, onMounted, onUnmounted } = Vue;
-    
-    
-    try {
-      createApp({
-        template: \`${template}\`,
-        setup() {
-          ${script}
-          
-          // Auto-export all variables and functions
-          const exports = {};
-          try {
-            ${script.match(/const\s+(\w+)/g)?.map(match => {
-              const varName = match.replace('const ', '').replace(/\s+/g, '');
-              return `if (typeof ${varName} !== 'undefined') exports.${varName} = ${varName};`;
-            }).join('\n') || ''}
-            
-            ${script.match(/function\s+(\w+)/g)?.map(match => {
-              const funcName = match.replace('function ', '').replace(/\s+/g, '');
-              return `if (typeof ${funcName} !== 'undefined') exports.${funcName} = ${funcName};`;
-            }).join('\n') || ''}
-            
-          } catch (e) {
-          }
-          
-          return exports;
-        }
-      }).mount('#app')
-    } catch (error) {
-      document.getElementById('app').innerHTML = '${'<'}div style="color: red; padding: 20px;"${'>'}Error: ' + error.message + '${'<'}\/div${'>'};
-    }
-  ${'<'}\/script${'>'}
-${'<'}\/body${'>'}
-${'<'}\/html${'>'}`
-}
 
 const completeLesson = () => {
   if (!completedLessons.value.includes(selectedLesson.value)) {

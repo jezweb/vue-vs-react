@@ -3,9 +3,15 @@
     <div class="h-full flex flex-col">
       <!-- Header -->
       <div class="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 p-4">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
-          <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-200">Code Playground</h1>
-          <div class="flex gap-2">
+        <div class="max-w-7xl mx-auto">
+          <div class="flex items-center justify-between">
+            <div>
+              <h1 class="text-2xl font-bold text-gray-800 dark:text-gray-200">Code Playground</h1>
+              <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                Compare React and Vue implementations side by side
+              </p>
+            </div>
+            <div class="flex gap-2">
             <select 
               v-model="selectedExample" 
               @change="loadExample"
@@ -17,10 +23,13 @@
               <option value="fetchData">Fetch Data</option>
             </select>
             <button 
-              @click="runCode"
-              class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors"
+              @click="copyBothCodes"
+              class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition-colors flex items-center gap-2"
             >
-              Run Code
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path>
+              </svg>
+              {{ copyButtonText }}
             </button>
             <button 
               @click="shareCode"
@@ -28,12 +37,13 @@
             >
               {{ shareButtonText }}
             </button>
+            </div>
           </div>
         </div>
       </div>
       
       <!-- Playground Content -->
-      <div class="flex-1 flex" style="height: calc(100vh - 200px);">
+      <div class="flex-1 flex">
         <!-- React Editor -->
         <div class="flex-1 flex flex-col border-r border-gray-300 dark:border-gray-700">
           <div class="bg-react-dark text-white p-3 font-semibold flex items-center">
@@ -69,66 +79,36 @@
         </div>
       </div>
       
-      <!-- Output Preview -->
-      <div class="bg-white dark:bg-gray-800 border-t border-gray-300 dark:border-gray-700" style="height: 300px;">
-        <div class="p-3 border-b border-gray-200 dark:border-gray-700 font-semibold text-gray-700 dark:text-gray-300 flex justify-between items-center">
-          <span>Output Preview</span>
-          <div class="flex gap-2">
-            <button 
-              @click="activeOutput = 'react'"
-              :class="[
-                'px-3 py-1 text-sm rounded transition-colors',
-                activeOutput === 'react' 
-                  ? 'bg-react-blue text-white' 
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-              ]"
-            >
-              React Output
-            </button>
-            <button 
-              @click="activeOutput = 'vue'"
-              :class="[
-                'px-3 py-1 text-sm rounded transition-colors',
-                activeOutput === 'vue' 
-                  ? 'bg-vue-green text-white' 
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-              ]"
-            >
-              Vue Output
-            </button>
+      <!-- Tips Section -->
+      <div class="bg-white dark:bg-gray-800 border-t border-gray-300 dark:border-gray-700 p-6">
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
+          💡 How to Use This Code
+        </h3>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <h4 class="font-medium text-react-blue mb-2">For React:</h4>
+            <ol class="list-decimal list-inside space-y-1 text-sm text-gray-600 dark:text-gray-400">
+              <li>Create a new React app: <code class="bg-gray-100 dark:bg-gray-700 px-1 rounded">npx create-react-app my-app</code></li>
+              <li>Replace the contents of <code class="bg-gray-100 dark:bg-gray-700 px-1 rounded">src/App.js</code> with the React code</li>
+              <li>Run <code class="bg-gray-100 dark:bg-gray-700 px-1 rounded">npm start</code> to see it in action</li>
+            </ol>
+          </div>
+          <div>
+            <h4 class="font-medium text-vue-green mb-2">For Vue:</h4>
+            <ol class="list-decimal list-inside space-y-1 text-sm text-gray-600 dark:text-gray-400">
+              <li>Create a new Vue app: <code class="bg-gray-100 dark:bg-gray-700 px-1 rounded">npm create vue@latest my-app</code></li>
+              <li>Create a new component file with the Vue code</li>
+              <li>Run <code class="bg-gray-100 dark:bg-gray-700 px-1 rounded">npm run dev</code> to see it in action</li>
+            </ol>
           </div>
         </div>
-        <div class="h-full relative">
-          <div v-if="error" class="p-4 text-red-500">
-            Error: {{ error }}
-          </div>
-          <div v-else-if="isRunning" class="p-4 text-gray-500 dark:text-gray-400">
-            <LoadingSpinner />
-            <p class="text-center mt-2">Compiling and running code...</p>
-          </div>
-          <div v-else-if="!hasRun" class="p-4 text-gray-500 dark:text-gray-400 text-center">
-            Click "Run Code" to see the output
-          </div>
-          <div v-else class="h-full">
-            <!-- React Output -->
-            <iframe
-              v-show="activeOutput === 'react'"
-              ref="reactFrame"
-              :srcdoc="reactOutput"
-              class="w-full h-full bg-white"
-              sandbox="allow-scripts"
-              style="height: calc(300px - 52px);"
-            ></iframe>
-            <!-- Vue Output -->
-            <iframe
-              v-show="activeOutput === 'vue'"
-              ref="vueFrame"
-              :srcdoc="vueOutput"
-              class="w-full h-full bg-white"
-              sandbox="allow-scripts"
-              style="height: calc(300px - 52px);"
-            ></iframe>
-          </div>
+        <div class="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+          <p class="text-sm text-blue-700 dark:text-blue-300">
+            <strong>Tip:</strong> You can also use online playgrounds like 
+            <a href="https://codesandbox.io" target="_blank" class="underline hover:text-blue-800 dark:hover:text-blue-200">CodeSandbox</a> or 
+            <a href="https://stackblitz.com" target="_blank" class="underline hover:text-blue-800 dark:hover:text-blue-200">StackBlitz</a> 
+            to run this code instantly in your browser.
+          </p>
         </div>
       </div>
     </div>
@@ -138,7 +118,6 @@
 <script setup>
 import { ref, shallowRef, onMounted, onUnmounted } from 'vue'
 import { VueMonacoEditor } from '@guolao/vue-monaco-editor'
-import LoadingSpinner from '../components/common/LoadingSpinner.vue'
 
 const reactCode = ref(`import React, { useState } from 'react';
 
@@ -173,18 +152,10 @@ const count = ref(0)
 <\/script>`)
 
 const selectedExample = ref('')
-const error = ref('')
-const isRunning = ref(false)
-const hasRun = ref(false)
-const activeOutput = ref('react')
-const reactOutput = ref('')
-const vueOutput = ref('')
-
 const reactEditor = shallowRef()
 const vueEditor = shallowRef()
-const reactFrame = ref(null)
-const vueFrame = ref(null)
 const shareButtonText = ref('Share')
+const copyButtonText = ref('Copy Both')
 
 const editorOptions = {
   automaticLayout: true,
@@ -487,24 +458,27 @@ const loadExample = () => {
   }
 }
 
-const runCode = async () => {
-  error.value = ''
-  isRunning.value = true
-  hasRun.value = true
+const copyBothCodes = async () => {
+  const combinedCode = `// ===== React Version =====\n${reactCode.value}\n\n// ===== Vue Version =====\n${vueCode.value}`
   
   try {
-    // Generate React output
-    reactOutput.value = generateReactHTML(reactCode.value)
-    
-    // Generate Vue output
-    vueOutput.value = generateVueHTML(vueCode.value)
-    
-    // Small delay to show loading state
-    await new Promise(resolve => setTimeout(resolve, 500))
+    await navigator.clipboard.writeText(combinedCode)
+    copyButtonText.value = 'Copied!'
+    setTimeout(() => {
+      copyButtonText.value = 'Copy Both'
+    }, 2000)
   } catch (err) {
-    error.value = err.message
-  } finally {
-    isRunning.value = false
+    // Fallback for older browsers
+    const textArea = document.createElement('textarea')
+    textArea.value = combinedCode
+    document.body.appendChild(textArea)
+    textArea.select()
+    document.execCommand('copy')
+    document.body.removeChild(textArea)
+    copyButtonText.value = 'Copied!'
+    setTimeout(() => {
+      copyButtonText.value = 'Copy Both'
+    }, 2000)
   }
 }
 
