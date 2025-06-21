@@ -116,7 +116,7 @@
               ref="reactFrame"
               :srcdoc="reactOutput"
               class="w-full h-full bg-white"
-              sandbox="allow-scripts allow-same-origin"
+              sandbox="allow-scripts"
               style="height: calc(300px - 52px);"
             ></iframe>
             <!-- Vue Output -->
@@ -125,7 +125,7 @@
               ref="vueFrame"
               :srcdoc="vueOutput"
               class="w-full h-full bg-white"
-              sandbox="allow-scripts allow-same-origin"
+              sandbox="allow-scripts"
               style="height: calc(300px - 52px);"
             ></iframe>
           </div>

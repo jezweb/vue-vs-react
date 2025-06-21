@@ -165,7 +165,7 @@
                     :srcdoc="outputHtml"
                     class="w-full bg-white rounded"
                     style="height: 320px;"
-                    sandbox="allow-scripts allow-same-origin"
+                    sandbox="allow-scripts"
                   ></iframe>
                   <div v-else class="text-red-500">
                     Error: {{ outputError }}
@@ -690,7 +690,11 @@ const generateVueOutput = (code) => {
   const scriptMatch = code.match(/<script setup>([\s\S]*?)<\/script>/)
   
   const template = templateMatch ? templateMatch[1].trim() : ''
-  const script = scriptMatch ? scriptMatch[1].trim() : ''
+  let script = scriptMatch ? scriptMatch[1].trim() : ''
+  
+  // Remove import statements from the script
+  script = script.replace(/import\s+\{[^}]+\}\s+from\s+['"][^'"]+['"]/g, '')
+  script = script.trim()
   
   
   return `<!DOCTYPE html>
